@@ -13,27 +13,21 @@ Vector3::Vector3(float xAxis, float yAxis, float zAxis) {
 	x = xAxis;
 	y = yAxis;
 	z = zAxis;
-	length = 0.0f;
-
-	Length();
+	length = Length();
 }
 
 Vector3::Vector3(float axes) {
 	x = axes;
 	y = axes;
 	z = axes;
-	length = 0.0f;
-
-	Length();
+	length = Length();
 }
 
 Vector3::Vector3(const Vector2& vector) {
 	x = vector.x;
 	y = vector.y;
 	z = 0.0f;
-	length = 0.0f;
-
-	Length();
+	length = Length();
 }
 
 //functions

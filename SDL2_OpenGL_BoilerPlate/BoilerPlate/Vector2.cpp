@@ -11,17 +11,15 @@ Vector2::Vector2() {
 Vector2::Vector2(float xAxis, float yAxis) {
 	x = xAxis;
 	y = yAxis;
-	length = 0.0f;
+	length = Length();
 
-	Length();
+	
 }
 
 Vector2::Vector2(float axes) {
 	x = axes;
 	y = axes;
-	length = 0.0f;
-
-	Length();
+	length = Length();
 }
 
 //functions
