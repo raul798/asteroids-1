@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.hpp"
+#include "Vector4.hpp"
 
 class Player {
 
@@ -11,4 +11,7 @@ public:
 	void Update();
 	void Move(Vector2& unit);
 	void Render();
+	void Warping();
+	void Thruster();
+	bool isThrusterOn;
 };

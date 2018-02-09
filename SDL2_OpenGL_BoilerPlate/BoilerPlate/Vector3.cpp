@@ -61,6 +61,8 @@ float Vector3::Normalize() {
 Vector3& Vector3::operator=(const Vector3& rightSide) {
 
 	x = rightSide.x;
+	y = rightSide.y;
+	z = rightSide.z;
 
 	return *this;
 }

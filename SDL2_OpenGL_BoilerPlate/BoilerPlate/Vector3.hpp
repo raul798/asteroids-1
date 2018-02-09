@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.hpp"
+
 struct Vector3 {
 
 	//members

@@ -24,6 +24,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Vector4.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp" />
@@ -45,6 +48,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="Player.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

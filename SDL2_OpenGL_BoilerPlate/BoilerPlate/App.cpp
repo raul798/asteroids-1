@@ -90,8 +90,9 @@ namespace Engine
 		{
 		case SDL_SCANCODE_W:
 			SDL_Log("Up");
-			player->Move(Vector2(0.0f, unitsToMove));
+			player->Move( Vector2(0.0f, unitsToMove));
 			playerPosition->y += unitsToMove;
+			player->isThrusterOn = true;
 			break;
 
 		case SDL_SCANCODE_A:
@@ -102,7 +103,7 @@ namespace Engine
 
 		case SDL_SCANCODE_D:
 			SDL_Log("Right");
-			player->Move(Vector2(5.0f, 0.0f));
+			player->Move(Vector2(unitsToMove, 0.0f));
 			playerPosition->x += unitsToMove;
 			break;
 
@@ -125,6 +126,11 @@ namespace Engine
 		case SDL_SCANCODE_ESCAPE:
 			OnExit();
 			break;
+
+		case SDL_SCANCODE_W:
+			player->isThrusterOn = false;
+			break;
+
 		default:
 			//DO NOTHING
 			break;
@@ -160,6 +166,7 @@ namespace Engine
 		glClearColor(color.getDarkSlateGrayRedValue(), color.getDarkSlateGrayGreenValue(), color.getDarkSlateGrayBlueValue(), color.getDarkSlateGrayAlphaValue());
 
 		player->Render();
+		player->Thruster();
 
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
