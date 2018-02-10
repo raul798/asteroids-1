@@ -66,3 +66,9 @@ void Player::Thruster() {
 		glEnd();
 	}
 }
+
+void Player::MoveFroward(){}
+
+void Player::RotateLeft(){}
+
+void Player::RotateRight(){}

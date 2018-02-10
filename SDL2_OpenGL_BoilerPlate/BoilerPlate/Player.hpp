@@ -19,5 +19,7 @@ public:
 	void Render();
 	void Warping();
 	void Thruster();
-	
+	void MoveFroward();
+	void RotateLeft();
+	void RotateRight();
 };
