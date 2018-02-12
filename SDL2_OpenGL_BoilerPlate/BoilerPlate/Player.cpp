@@ -2,8 +2,8 @@
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 
-const int screenWidth = 568;
-const int screenHeight = 320;
+//const int screenWidth = 568;
+//const int screenHeight = 320;
 
 Player::Player() {
 	position = new Vector2();
@@ -12,11 +12,11 @@ Player::Player() {
 
 void Player::Update() {}
 
-void Player::Move(Vector2& unit) {
-	position->x += unit.x;
-	position->y += unit.y;
+void Player::Move(Vector2& vectorUnit, int screenWidth, int screenHeight) {
+	position->x += vectorUnit.x;
+	position->y += vectorUnit.y;
 
-	Warping();
+	Warping(screenWidth, screenHeight);
 }
 
 void Player::Render(){
@@ -37,22 +37,25 @@ void Player::Render(){
 
 }
 
-void Player::Warping() {
+void Player::Warping(int screenWidth, int screenHeight) {
 	
+	int width = screenWidth / 2;
+	int height = screenHeight / 2;
+
 	//Evaluating x
-	if (position->x < -screenWidth) {
-		position->x = screenWidth;
+	if (position->x < -width) {
+		position->x = width;
 	}
-	else if (position->x > screenWidth) {
-		position->x = -screenWidth;
+	else if (position->x > width) {
+		position->x = -width;
 	}
 
 	//Evaluationg y
-	if (position->y < -screenHeight) {
-		position->y = screenHeight;
+	if (position->y < -height) {
+		position->y = height;
 	}
-	else if (position->y > screenHeight) {
-		position->y = -screenHeight;
+	else if (position->y > height) {
+		position->y = -height;
 	}
 }
 

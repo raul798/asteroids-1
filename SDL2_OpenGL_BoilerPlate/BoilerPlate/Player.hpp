@@ -13,9 +13,9 @@ public:
 
 	//Functions
 	void Update();
-	void Move(Vector2& unit);
+	void Move(Vector2& vectorUnit, int screenWidth, int screenHeight);
 	void Render();
-	void Warping();
+	void Warping(int screenWidth, int screenHeight);
 	void Thruster();
 	void MoveFroward();
 	void RotateLeft();

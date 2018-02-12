@@ -90,26 +90,26 @@ namespace Engine
 		{
 		case SDL_SCANCODE_W:
 			SDL_Log("Up");
-			player->Move( Vector2(0.0f, unitsToMove));
+			player->Move( Vector2(0.0f, unitsToMove), m_width, m_height);
 			playerPosition->y += unitsToMove;
 			player->setIsThrusterOn(true);
 			break;
 
 		case SDL_SCANCODE_A:
 			SDL_Log("Left");
-			player->Move(Vector2(-unitsToMove, 0.0f));
+			player->Move(Vector2(-unitsToMove, 0.0f), m_width, m_height);
 			playerPosition->x -= unitsToMove;
 			break;
 
 		case SDL_SCANCODE_D:
 			SDL_Log("Right");
-			player->Move(Vector2(unitsToMove, 0.0f));
+			player->Move(Vector2(unitsToMove, 0.0f), m_width, m_height);
 			playerPosition->x += unitsToMove;
 			break;
 
 		case SDL_SCANCODE_S:
 			SDL_Log("Down");
-			player->Move(Vector2(0.0f, -unitsToMove));
+			player->Move(Vector2(0.0f, -unitsToMove), m_width, m_height);
 			playerPosition->y -= unitsToMove;
 			break;
 

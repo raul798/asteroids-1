@@ -22,17 +22,17 @@ struct Vector3 {
 	float Normalize();
 
 	//overload operators
-	Vector3& operator=(const Vector3&);
-	Vector3	 operator+(const Vector3&);
-	Vector3& operator+=(const Vector3&);
-	Vector3  operator-(const Vector3&);
-	Vector3& operator-=(const Vector3&);
-	Vector3  operator*(const Vector3&);
-	Vector3& operator*=(const Vector3&);
-	Vector3  operator/(const Vector3&);
-	Vector3& operator/=(const Vector3&);
-	bool	 operator==(const Vector3&);
-	bool     operator!=(const Vector3&);
-	friend Vector3 operator*(float unit, const Vector3&);
+	Vector3& operator=(const Vector3& rightSide);
+	Vector3	 operator+(const Vector3& rightSide);
+	Vector3& operator+=(const Vector3& rightSide);
+	Vector3  operator-(const Vector3& rightSide);
+	Vector3& operator-=(const Vector3& rightSide);
+	Vector3  operator*(const Vector3& rightSide);
+	Vector3& operator*=(const Vector3& rightSide);
+	Vector3  operator/(const Vector3& rightSide);
+	Vector3& operator/=(const Vector3& rightSide);
+	bool	 operator==(const Vector3& rightSide);
+	bool     operator!=(const Vector3& rightSide);
+	friend Vector3 operator*(float unit, const Vector3& rightSide);
 	friend Vector3 operator*(const Vector3& leftSide, float unit);
 };

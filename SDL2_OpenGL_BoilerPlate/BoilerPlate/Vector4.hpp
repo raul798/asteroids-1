@@ -24,17 +24,17 @@ struct Vector4 {
 	float Normalize();
 
 	//overload operators
-	Vector4& operator=(const Vector4&);
-	Vector4	 operator+(const Vector4&);
-	Vector4& operator+=(const Vector4&);
-	Vector4  operator-(const Vector4&);
-	Vector4& operator-=(const Vector4&);
-	Vector4  operator*(const Vector4&);
-	Vector4& operator*=(const Vector4&);
-	Vector4  operator/(const Vector4&);
-	Vector4& operator/=(const Vector4&);
-	bool	 operator==(const Vector4&);
-	bool     operator!=(const Vector4&);
-	friend Vector4 operator*(float unit, const Vector4&);
+	Vector4& operator=(const Vector4& rightSide);
+	Vector4	 operator+(const Vector4& rightSide);
+	Vector4& operator+=(const Vector4& rightSide);
+	Vector4  operator-(const Vector4& rightSide);
+	Vector4& operator-=(const Vector4& rightSide);
+	Vector4  operator*(const Vector4& rightSide);
+	Vector4& operator*=(const Vector4& rightSide);
+	Vector4  operator/(const Vector4& rightSide);
+	Vector4& operator/=(const Vector4& rightSide);
+	bool	 operator==(const Vector4& rightSide);
+	bool     operator!=(const Vector4& rightSide);
+	friend Vector4 operator*(float unit, const Vector4& rightSide);
 	friend Vector4 operator*(const Vector4& leftSide, float unit);
 };
