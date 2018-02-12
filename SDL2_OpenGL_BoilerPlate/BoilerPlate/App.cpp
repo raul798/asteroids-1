@@ -92,7 +92,7 @@ namespace Engine
 			SDL_Log("Up");
 			player->Move( Vector2(0.0f, unitsToMove));
 			playerPosition->y += unitsToMove;
-			player->isThrusterOn = true;
+			player->setIsThrusterOn(true);
 			break;
 
 		case SDL_SCANCODE_A:
@@ -128,7 +128,7 @@ namespace Engine
 			break;
 
 		case SDL_SCANCODE_W:
-			player->isThrusterOn = false;
+			player->setIsThrusterOn(false);
 			break;
 
 		default:

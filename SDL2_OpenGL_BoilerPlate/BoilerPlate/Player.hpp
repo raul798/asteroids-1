@@ -5,11 +5,9 @@ class Player {
 
 private:
 	Vector2* position;
-
-public:
-	//Public members
 	bool isThrusterOn;
 
+public:
 	//Constructor
 	Player();
 
@@ -22,4 +20,7 @@ public:
 	void MoveFroward();
 	void RotateLeft();
 	void RotateRight();
+	
+	//thruster setter
+	void setIsThrusterOn(bool thrusterMode);
 };

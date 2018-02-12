@@ -58,7 +58,7 @@ void Player::Warping() {
 
 void Player::Thruster() {
 
-	if (isThrusterOn) {
+	if (isThrusterOn == true) {
 		glBegin(GL_LINE_LOOP);
 		glVertex2f(-5.0, -4.0);
 		glVertex2f(5.0, -4.0);
@@ -67,8 +67,14 @@ void Player::Thruster() {
 	}
 }
 
-void Player::MoveFroward(){}
+void Player::MoveFroward() {}
 
-void Player::RotateLeft(){}
+void Player::RotateLeft() {}
 
-void Player::RotateRight(){}
+void Player::RotateRight() {}
+
+//thruster setter
+void Player::setIsThrusterOn(bool thrusterMode){
+	isThrusterOn = thrusterMode;
+}
+
