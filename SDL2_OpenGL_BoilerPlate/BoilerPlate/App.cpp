@@ -90,27 +90,23 @@ namespace Engine
 		{
 		case SDL_SCANCODE_W:
 			SDL_Log("Up");
-			player->Move( Vector2(0.0f, unitsToMove), m_width, m_height);
-			playerPosition->y += unitsToMove;
+			player->MoveFroward(m_width, m_height);
+			//playerPosition->y += unitsToMove;
 			player->setIsThrusterOn(true);
 			break;
 
 		case SDL_SCANCODE_A:
 			SDL_Log("Left");
-			player->Move(Vector2(-unitsToMove, 0.0f), m_width, m_height);
-			playerPosition->x -= unitsToMove;
+			player->RotateLeft();
 			break;
 
 		case SDL_SCANCODE_D:
 			SDL_Log("Right");
-			player->Move(Vector2(unitsToMove, 0.0f), m_width, m_height);
-			playerPosition->x += unitsToMove;
+			player->RotateRight();
 			break;
 
 		case SDL_SCANCODE_S:
 			SDL_Log("Down");
-			player->Move(Vector2(0.0f, -unitsToMove), m_width, m_height);
-			playerPosition->y -= unitsToMove;
 			break;
 
 		default:			
@@ -130,7 +126,7 @@ namespace Engine
 		case SDL_SCANCODE_W:
 			player->setIsThrusterOn(false);
 			break;
-
+	
 		default:
 			//DO NOTHING
 			break;
@@ -150,6 +146,7 @@ namespace Engine
 		while (endTime < nextTimeFrame)
 		{
 			// Spin lock
+
 			endTime = m_timer->GetElapsedTimeInSeconds();
 		}
 
@@ -158,6 +155,7 @@ namespace Engine
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
 
 		m_nUpdates++;
+		
 	}
 
 	void App::Render()
@@ -166,8 +164,6 @@ namespace Engine
 		glClearColor(color.getDarkSlateGrayRedValue(), color.getDarkSlateGrayGreenValue(), color.getDarkSlateGrayBlueValue(), color.getDarkSlateGrayAlphaValue());
 
 		player->Render();
-		player->Thruster();
-
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
 

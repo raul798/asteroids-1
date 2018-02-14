@@ -2,7 +2,7 @@
 
 struct MathUtilities {
 
-	const float pi = 3.14159265358979f;
+	const float pi = 3.14159265f;
 	int floatToInt(float number);
 	int floatToEvenInt(float number);
 	float degreesToRadians(float degree);

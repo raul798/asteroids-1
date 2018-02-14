@@ -2,28 +2,18 @@
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 
-//const int screenWidth = 568;
-//const int screenHeight = 320;
 
 Player::Player() {
 	position = new Vector2();
 	isThrusterOn = false;
+	shipOrientation = 0.0f;
 }
 
-void Player::Update() {}
-
-void Player::Move(Vector2& vectorUnit, int screenWidth, int screenHeight) {
-	position->x += vectorUnit.x;
-	position->y += vectorUnit.y;
-
-	Warping(screenWidth, screenHeight);
+void Player::Update() {
+	
 }
 
-void Player::Render(){
-
-	glLoadIdentity();
-
-	glTranslatef(position->x, position->y, 0.0f);
+void Player::DrawShip() {
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -34,7 +24,16 @@ void Player::Render(){
 	glVertex2f(-6.0, -4.0);
 	glVertex2f(-12.0, -10.0);
 	glEnd();
+}
 
+void Player::Render(){
+
+	glLoadIdentity();
+	glTranslatef(position->x, position->y, 0.0f);
+	glRotatef(-shipOrientation, 0.0f, 0.0f, 1.0f);
+
+	DrawShip();
+	DrawThruster();
 }
 
 void Player::Warping(int screenWidth, int screenHeight) {
@@ -59,7 +58,7 @@ void Player::Warping(int screenWidth, int screenHeight) {
 	}
 }
 
-void Player::Thruster() {
+void Player::DrawThruster() {
 
 	if (isThrusterOn == true) {
 		glBegin(GL_LINE_LOOP);
@@ -70,14 +69,33 @@ void Player::Thruster() {
 	}
 }
 
-void Player::MoveFroward() {}
+void Player::MoveFroward(int screenWidth, int screenHeight) {
 
-void Player::RotateLeft() {}
+	MathUtilities mathUtilities;
+	float xAxis, yAxis;
 
-void Player::RotateRight() {}
+	xAxis = moveForwardValue * sinf(mathUtilities.degreesToRadians(shipOrientation));
+	yAxis = moveForwardValue * cosf(mathUtilities.degreesToRadians(shipOrientation));
+
+	position->x += xAxis;
+	position->y += yAxis;
+
+	Warping(screenWidth, screenHeight);
+}
+
+void Player::RotateLeft() {
+	
+	shipOrientation -= rotationValue;
+}
+
+void Player::RotateRight() {
+
+	shipOrientation += rotationValue;
+}
 
 //thruster setter
 void Player::setIsThrusterOn(bool thrusterMode){
 	isThrusterOn = thrusterMode;
 }
+
 

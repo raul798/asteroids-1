@@ -6,6 +6,9 @@ class Player {
 private:
 	Vector2* position;
 	bool isThrusterOn;
+	float shipOrientation;
+	const float rotationValue = 20.0f;
+	const float moveForwardValue = 5.0f;
 
 public:
 	//Constructor
@@ -13,11 +16,11 @@ public:
 
 	//Functions
 	void Update();
-	void Move(Vector2& vectorUnit, int screenWidth, int screenHeight);
+	void DrawShip();
 	void Render();
 	void Warping(int screenWidth, int screenHeight);
-	void Thruster();
-	void MoveFroward();
+	void DrawThruster();
+	void MoveFroward(int screenWidth, int screenHeight);
 	void RotateLeft();
 	void RotateRight();
 	
