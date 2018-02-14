@@ -1,8 +1,8 @@
 #pragma once
 
-class MathUtilities {
+struct MathUtilities {
 
-public:
+	const float pi = 3.14159265358979f;
 	int floatToInt(float number);
 	int floatToEvenInt(float number);
 	float degreesToRadians(float degree);
