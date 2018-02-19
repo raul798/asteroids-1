@@ -1,9 +1,6 @@
 #include "App.hpp"
 #include <iostream>
 #include <algorithm>
-#include "ColorPalette.hpp"
-#include "MathUtilities.hpp"
-#include "Player.hpp"
 
 // OpenGL includes
 #include <GL/glew.h>
@@ -11,11 +8,6 @@
 
 namespace Engine
 {
-	//Player declaration, player position, unit used to move the player
-	Player *player = new Player();
-	Vector2 *playerPosition = new Vector2();
-	float unitsToMove = 5.0f;
-
 	const float DESIRED_FRAME_RATE = 60.0f;
 	const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
 
@@ -91,7 +83,6 @@ namespace Engine
 		case SDL_SCANCODE_W:
 			SDL_Log("Up");
 			player->MoveFroward(m_width, m_height);
-			//playerPosition->y += unitsToMove;
 			player->setIsThrusterOn(true);
 			break;
 
@@ -163,7 +154,11 @@ namespace Engine
 		ColorPalette color;
 		glClearColor(color.getDarkSlateGrayRedValue(), color.getDarkSlateGrayGreenValue(), color.getDarkSlateGrayBlueValue(), color.getDarkSlateGrayAlphaValue());
 
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		player->Render();
+		asteroid->Render();
+
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
 

@@ -1,29 +1,25 @@
 #include "Player.hpp"
-#include <GL/glew.h>
-#include <SDL2/SDL_opengl.h>
-
 
 Player::Player() {
-	position = new Vector2();
+
 	isThrusterOn = false;
 	shipOrientation = 0.0f;
+	mass = 1.0f;
+	//Assign thruster vertex
+	PushDrawEntityVertex();
+	PushDrawThrusterVertex();
 }
 
-void Player::Update() {
-	
-}
+void Player::Update() {}
 
-void Player::DrawShip() {
 
-	glClear(GL_COLOR_BUFFER_BIT);
+void Player::PushDrawEntityVertex() {
 
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(0.0, 20.0);
-	glVertex2f(12.0, -10.0);
-	glVertex2f(6.0, -4.0);
-	glVertex2f(-6.0, -4.0);
-	glVertex2f(-12.0, -10.0);
-	glEnd();
+	entityVertexContainer.push_back(Vector2(0.0f, 20.0f));
+	entityVertexContainer.push_back(Vector2(12.0f, -10.0f));
+	entityVertexContainer.push_back(Vector2(6.0f, -4.0f));
+	entityVertexContainer.push_back(Vector2(-6.0f, -4.0f));
+	entityVertexContainer.push_back(Vector2(-12.0f, -10.0f));
 }
 
 void Player::Render(){
@@ -32,41 +28,29 @@ void Player::Render(){
 	glTranslatef(position->x, position->y, 0.0f);
 	glRotatef(-shipOrientation, 0.0f, 0.0f, 1.0f);
 
-	DrawShip();
+	DrawEntity();
 	DrawThruster();
 }
 
-void Player::Warping(int screenWidth, int screenHeight) {
-	
-	int width = screenWidth / 2;
-	int height = screenHeight / 2;
-
-	//Evaluating x
-	if (position->x < -width) {
-		position->x = width;
-	}
-	else if (position->x > width) {
-		position->x = -width;
-	}
-
-	//Evaluationg y
-	if (position->y < -height) {
-		position->y = height;
-	}
-	else if (position->y > height) {
-		position->y = -height;
-	}
-}
 
 void Player::DrawThruster() {
 
 	if (isThrusterOn == true) {
 		glBegin(GL_LINE_LOOP);
-		glVertex2f(-5.0, -4.0);
-		glVertex2f(5.0, -4.0);
-		glVertex2f(0.0, -15.0);
+
+		for (int i = 0; i < thrusterVertexContainer.size(); i++) {
+			glVertex2f(thrusterVertexContainer[i].x, thrusterVertexContainer[i].y);
+		}
+
 		glEnd();
 	}
+}
+
+void Player::PushDrawThrusterVertex() {
+
+	thrusterVertexContainer.push_back(Vector2(-5.0f, -4.0f));
+	thrusterVertexContainer.push_back(Vector2(5.0f, -4.0f));
+	thrusterVertexContainer.push_back(Vector2(0.0f, -15.0f));
 }
 
 void Player::MoveFroward(int screenWidth, int screenHeight) {

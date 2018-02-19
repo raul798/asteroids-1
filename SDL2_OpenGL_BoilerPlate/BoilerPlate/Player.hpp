@@ -1,12 +1,13 @@
 #pragma once
-#include "Vector4.hpp"
+#include "Entity.hpp"
 
-class Player {
+class Player : public Entity {
 
 private:
-	Vector2* position;
 	bool isThrusterOn;
 	float shipOrientation;
+	std::vector<Vector2> thrusterVertexContainer;
+	float mass;
 	const float rotationValue = 20.0f;
 	const float moveForwardValue = 5.0f;
 
@@ -15,11 +16,11 @@ public:
 	Player();
 
 	//Functions
-	void Update();
-	void DrawShip();
-	void Render();
-	void Warping(int screenWidth, int screenHeight);
+	virtual void Update();
+	virtual void PushDrawEntityVertex();
+	virtual void Render();
 	void DrawThruster();
+	void PushDrawThrusterVertex();
 	void MoveFroward(int screenWidth, int screenHeight);
 	void RotateLeft();
 	void RotateRight();

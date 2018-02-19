@@ -1,5 +1,4 @@
 #pragma once
-#include "cmath"
 #include "MathUtilities.hpp"
 
 struct Vector2 {

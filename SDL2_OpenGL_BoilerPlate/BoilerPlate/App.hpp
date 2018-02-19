@@ -10,6 +10,12 @@
 #include "SDLEvent.hpp"
 #include "TimeManager.hpp"
 
+//mylibraries
+#include "ColorPalette.hpp"
+#include "MathUtilities.hpp"
+#include "Player.hpp"
+#include "Asteroid.hpp"
+
 namespace Engine
 {
 	class App : public SDLEvent
@@ -66,6 +72,10 @@ namespace Engine
 		SDL_GLContext						m_context;
 		GameState::State					m_state;
 		Engine::TimeManager*				m_timer;
+
+		//player and asteroid declaration
+		Player *player = new Player();
+		Asteroid *asteroid = new Asteroid(asteroid->MEDIUM_SIZE);
 
 	};
 }

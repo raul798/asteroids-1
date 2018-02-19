@@ -41,14 +41,14 @@ int MathUtilities::floatToEvenInt(float number) {
 float MathUtilities::degreesToRadians(float degree) {
 	float result;
 
-	result = ((degree * pi) / 180);
+	result = ((degree * PI) / 180);
 	return result;
 }
 
 float MathUtilities::radiansToDegrees(float radian) {
 	float result;
 
-	result = ((radian * 180) / pi);
+	result = ((radian * 180) / PI);
 	return result;
 }
 
