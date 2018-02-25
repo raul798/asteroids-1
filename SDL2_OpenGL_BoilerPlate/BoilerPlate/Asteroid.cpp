@@ -30,12 +30,15 @@ void Asteroid::Update(int screenWidth, int screenHeight, float deltaTime) {
 
 void Asteroid::Render() {
 
-	glLoadIdentity();
-	glTranslatef(position->x, position->y, 0.0f);
-	glRotatef(asteroidRotationAngle, 0.0f, 0.0f, 1.0f);
+	if (isRendering == true) {
 
-	DrawEntity();
-	EntityDebugger();
+		glLoadIdentity();
+		glTranslatef(position->x, position->y, 0.0f);
+		glRotatef(asteroidRotationAngle, 0.0f, 0.0f, 1.0f);
+
+		DrawEntity();
+		EntityDebugger();
+	}
 }
 
 int Asteroid::GetAsteroidSize() {

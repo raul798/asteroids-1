@@ -296,7 +296,12 @@ void Game::RenderBullets() {
 
 void Game::shootBullet() {
 
-	bullets.push_back(new Bullet(*player));
+	//check if is alive
+	if (player->GetIsRendering() == true) {
+
+		bullets.push_back(new Bullet(*player));
+	}
+	
 }
 
 void Game::CollisionOfTheBullet(){
@@ -313,7 +318,12 @@ void Game::CollisionOfTheBullet(){
 	
 				if (IsInCollisionRange(distanceBetweenEntities, bullets[i]->GetEntityRadius() + asteroids[j]->GetEntityRadius())) {
 
+					//remove the asteroid and the bullet on impact
 					bullets[i]->SetIsRendering(false);
+					asteroids[j]->SetIsRendering(false);
+					asteroids.erase(asteroids.begin() + j);
+					bullets.erase(bullets.begin() + i);
+					break;
 				}
 			}
 		}
