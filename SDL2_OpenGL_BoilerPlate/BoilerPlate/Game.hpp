@@ -7,7 +7,7 @@ class Game {
 public:
 	Player *player;
 	std::vector<Asteroid*> asteroids;
-	float numberOfAsteroids;
+	float numberOfAsteroids; 
 
 	//Constructor and destructor
 	Game();
@@ -23,11 +23,11 @@ public:
 	void RemoveAsteroid();
 	void RemoveFromMemory();
 	void SwitchingDebuggerMode();
-	void determineDebuggerState();
-	//void ShowCollisionLines();
+	void DetermineDebuggerState();
+	void ShowCollisionLines();
 
 	//Members getters
-	Player getPlayer();
-	std::vector<Asteroid*> getAsteroids();
-	float getNumberOfAsteroids();
+	Player GetPlayer();
+	std::vector<Asteroid*> GetAsteroids();
+	float GetNumberOfAsteroids();
 };

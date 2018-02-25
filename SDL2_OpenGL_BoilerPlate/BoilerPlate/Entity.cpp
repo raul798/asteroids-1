@@ -127,14 +127,24 @@ void Entity::ChangeDebuggerState() {
 	}
 }
 
-bool Entity::getDebuggerState() {
+bool Entity::GetDebuggerState() {
 
 	return debuggerState;
 }
 
-void Entity::setDebuggerState(bool shipDebuggerState) {
+void Entity::SetDebuggerState(bool shipDebuggerState) {
 
 	debuggerState = shipDebuggerState;
+}
+
+Vector2 Entity::GetPosition() {
+
+	return *position;
+}
+
+float Entity::GetEntityRadius() {
+
+	return radius;
 }
 
 

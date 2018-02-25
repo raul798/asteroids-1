@@ -32,6 +32,8 @@ public:
 	void EntityDebugger();
 	void DrawHitCircle();
 	void ChangeDebuggerState();
-	bool getDebuggerState();
-	void setDebuggerState(bool shipDebuggerState);
+	bool GetDebuggerState();
+	void SetDebuggerState(bool shipDebuggerState);
+	Vector2 GetPosition();
+	float GetEntityRadius();
 };

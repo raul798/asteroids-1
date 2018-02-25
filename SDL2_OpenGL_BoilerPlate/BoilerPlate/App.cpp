@@ -82,7 +82,7 @@ namespace Engine
 		case SDL_SCANCODE_W:
 			SDL_Log("Up");
 			game->player->Impulse();
-			game->player->setIsThrusterOn(true);
+			game->player->SetIsThrusterOn(true);
 			break;
 
 		case SDL_SCANCODE_A:
@@ -129,7 +129,7 @@ namespace Engine
 			break;
 
 		case SDL_SCANCODE_W:
-			game->player->setIsThrusterOn(false);
+			game->player->SetIsThrusterOn(false);
 			break;
 
 		default:

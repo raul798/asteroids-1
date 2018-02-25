@@ -11,7 +11,6 @@ private:
 	const float coefficientOfFriction = 0.95f;
 	const float moveForwardValue = 20.0f;
 	const float maxSpeed = 300.0f;
-	const float debuggerDetectionRadius = 3 * radius;
 
 public:
 	//Constructor
@@ -26,7 +25,5 @@ public:
 	void PushDrawThrusterVertex();
 	void RotateLeft();
 	void RotateRight();
-	
-	//thruster setter
-	void setIsThrusterOn(bool thrusterMode);
+	void SetIsThrusterOn(bool thrusterMode);
 };

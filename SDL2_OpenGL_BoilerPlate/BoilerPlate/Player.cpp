@@ -85,7 +85,7 @@ void Player::RotateRight() {
 }
 
 //thruster setter
-void Player::setIsThrusterOn(bool thrusterMode){
+void Player::SetIsThrusterOn(bool thrusterMode){
 	isThrusterOn = thrusterMode;
 }
 
