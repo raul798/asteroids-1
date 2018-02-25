@@ -132,6 +132,8 @@ void Game::ShowCollisionLines() {
 
 	glBegin(GL_LINE_LOOP);
 
+	//glColor3f(1.0f, 1.0, 1.0f);
+
 			if (player->GetDebuggerState() == true) {
 
 					for (int i = 0; i < asteroids.size(); i++) {
@@ -144,8 +146,24 @@ void Game::ShowCollisionLines() {
 						//Distcance between entities <= detection radius(2 * radius) + radius of the asteroid
 						if (distanceBetweenEntities <= debuggerDetectionRadius + asteroids[i]->GetEntityRadius()) {
 
-							glVertex2f(player->GetPosition().x, player->GetPosition().y);
-							glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
+							//if is collision range
+							if (distanceBetweenEntities <= player->GetEntityRadius() + asteroids[i]->GetEntityRadius()) {
+
+								//change line color to red
+								glColor3f(1.0f, 0.0, 0.0f);
+								
+								glVertex2f(player->GetPosition().x, player->GetPosition().y);
+								glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
+							}
+							else {
+
+								//go back to white
+								glColor3f(1.0f, 1.0, 1.0f);
+
+								glVertex2f(player->GetPosition().x, player->GetPosition().y);
+								glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
+							}
+							
 						}
 					}
 			}

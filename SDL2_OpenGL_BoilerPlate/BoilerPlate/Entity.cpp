@@ -29,6 +29,8 @@ void Entity::DrawEntity() {
 
 	glBegin(GL_LINE_LOOP);
 
+	glColor3f(1.0f, 1.0, 1.0f);
+
 	for (int i = 0; i < entityVertexContainer.size(); i++) {
 		glVertex2f(entityVertexContainer[i].x, entityVertexContainer[i].y);
 	}
@@ -103,8 +105,9 @@ void Entity::DrawHitCircle() {
 	float twicePi = 2.0f * mathUtilities.PI;
 
 	glLoadIdentity();
-
 	glBegin(GL_LINE_LOOP);
+	glColor3f(1.0f, 1.0, 1.0f);
+
 	for (int i = 0; i <= lineAmount; i++) {
 		glVertex2f(
 			position->x + (radius * cos(i * twicePi / lineAmount)),
