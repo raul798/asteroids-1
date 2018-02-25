@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.hpp"
 #include "Asteroid.hpp"
+#include "SDLEvent.hpp"
 
 class Game {
 
@@ -16,7 +17,7 @@ public:
 	//Functions
 	void Update(int screenWidth, int screenHeight, float deltaTime);
 	void Render();
-	void UpdateAsteroids(int screenWidth, int screenHeight, float deltaTime);
+	void UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime);
 	void RenderAsteroids();
 	void SpawnAsteroids();
 	void AddAsteroid();
@@ -24,7 +25,15 @@ public:
 	void RemoveFromMemory();
 	void SwitchingDebuggerMode();
 	void DetermineDebuggerState();
+	bool IsInCollisionRange(float distanceBetweenEntities, float radiusOfEntities);
 	void ShowCollisionLines();
+	float CalculateDistanceBetweenEntities(Vector2 firstEntityPosition, Vector2 secondEntityPosition);
+	void CollisionOfTheShip();
+	void RespawnPlayer();
+
+	//Input
+	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
+	void OnKeyUp(SDL_KeyboardEvent keyBoardEvent);
 
 	//Members getters
 	Player GetPlayer();

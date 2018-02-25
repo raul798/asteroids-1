@@ -30,7 +30,7 @@ public:
 	void Warping(int screenWidth, int screenHeight);
 	float CalculateRadius();
 	void EntityDebugger();
-	void DrawHitCircle();
+	void DrawCircleAroundEntity();
 	void ChangeDebuggerState();
 	bool GetDebuggerState();
 	void SetDebuggerState(bool shipDebuggerState);

@@ -10,6 +10,7 @@ Player::Player() {
 	PushDrawThrusterVertex();
 	speed = 0.0f;
 	radius = CalculateRadius();
+	isRendering = true;
 }
 
 void Player::Update(int screenWidth, int screenHeight, float deltaTime) {
@@ -44,13 +45,17 @@ void Player::PushDrawEntityVertex() {
 
 void Player::Render(){
 
-	glLoadIdentity();
-	glTranslatef(position->x, position->y, 0.0f);
-	glRotatef(shipOrientation, 0.0f, 0.0f, 1.0f);
+	if (isRendering == true) {
 
-	DrawEntity();
-	DrawThruster();
-	EntityDebugger();
+		glLoadIdentity();
+		glTranslatef(position->x, position->y, 0.0f);
+		glRotatef(shipOrientation, 0.0f, 0.0f, 1.0f);
+
+		DrawEntity();
+		DrawThruster();
+		EntityDebugger();
+
+	}
 }
 
 void Player::DrawThruster() {
@@ -97,4 +102,20 @@ void Player::Impulse() {
 
 	entityVelocity->x += (moveForwardValue / mass) * -sinf(mathUtilities.degreesToRadians(shipOrientation));
 	entityVelocity->y += (moveForwardValue / mass) * cosf(mathUtilities.degreesToRadians(shipOrientation));
+}
+
+bool Player::GetIsRendering() {
+
+	return isRendering;
+}
+
+void Player::SetIsRendering(bool desiredValue) {
+
+	isRendering = desiredValue;
+}
+
+void Player::RespawnShip() {
+
+	isRendering = true;
+	position = new Vector2(0.0f, 0.0f);
 }

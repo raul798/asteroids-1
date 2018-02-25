@@ -7,7 +7,12 @@ class Bullet : public Entity {
 private:
 
 public:
+	//constructor
+	Bullet();
 
-
+	//funcions
+	virtual void Render();
+	virtual void Update();
+	void BulletMovement();
 
 };

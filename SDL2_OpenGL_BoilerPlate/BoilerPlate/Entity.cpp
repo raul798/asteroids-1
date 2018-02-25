@@ -92,11 +92,11 @@ void Entity::EntityDebugger() {
 
 	if (debuggerState == true) {
 
-		DrawHitCircle();
+		DrawCircleAroundEntity();
 	}
 }
 
-void Entity::DrawHitCircle() {
+void Entity::DrawCircleAroundEntity() {
 
 	MathUtilities mathUtilities;
 
@@ -104,6 +104,7 @@ void Entity::DrawHitCircle() {
 
 	float twicePi = 2.0f * mathUtilities.PI;
 
+	//reset the transform matrix so the movement is no aplly twice to the circle
 	glLoadIdentity();
 	glBegin(GL_LINE_LOOP);
 	glColor3f(1.0f, 1.0, 1.0f);

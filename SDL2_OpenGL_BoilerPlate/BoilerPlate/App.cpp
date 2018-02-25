@@ -77,59 +77,17 @@ namespace Engine
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 	{
-		switch (keyBoardEvent.keysym.scancode)
-		{
-		case SDL_SCANCODE_W:
-			SDL_Log("Up");
-			game->player->Impulse();
-			game->player->SetIsThrusterOn(true);
-			break;
-
-		case SDL_SCANCODE_A:
-			SDL_Log("Left");
-			game->player->RotateLeft();
-			break;
-
-		case SDL_SCANCODE_D:
-			SDL_Log("Right");
-			game->player->RotateRight();
-			break;
-
-		case SDL_SCANCODE_S:
-			SDL_Log("Down");
-			break;
-
-		case SDL_SCANCODE_R:
-			SDL_Log("Remove Asteroid");
-			game->RemoveAsteroid();
-			break;
-
-		case SDL_SCANCODE_T:
-			SDL_Log("Add Asteroid");
-			game->AddAsteroid();
-			break;
-
-		case SDL_SCANCODE_G:
-			SDL_Log("Debugger Mode");
-			game->SwitchingDebuggerMode();
-			break;
-
-		default:
-			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
-			break;
-		}
+		game->OnKeyDown(keyBoardEvent);
 	}
 
 	void App::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	{
+		game->OnKeyUp(keyBoardEvent);
+
 		switch (keyBoardEvent.keysym.scancode)
 		{
 		case SDL_SCANCODE_ESCAPE:
 			OnExit();
-			break;
-
-		case SDL_SCANCODE_W:
-			game->player->SetIsThrusterOn(false);
 			break;
 
 		default:
@@ -143,8 +101,7 @@ namespace Engine
 		double startTime = m_timer->GetElapsedTimeInSeconds();
 
 		// Update code goes here
-		game->player->Update(m_width, m_height, DESIRED_FRAME_TIME);
-		game->UpdateAsteroids(m_width, m_height, DESIRED_FRAME_TIME);
+		game->Update(m_width, m_height, DESIRED_FRAME_TIME);
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
@@ -169,8 +126,7 @@ namespace Engine
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		game->player->Render();
-		game->RenderAsteroids();
+		game->Render();
 
 		SDL_GL_SwapWindow(m_mainWindow);
 	}

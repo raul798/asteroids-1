@@ -17,7 +17,7 @@ void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 
 	
 	player->Update(screenWidth, screenHeight, deltaTime);
-	UpdateAsteroids(screenWidth, screenHeight, deltaTime);
+	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
 }
 
 void Game::Render() {
@@ -26,9 +26,10 @@ void Game::Render() {
 	RenderAsteroids();
 }
 
-void Game::UpdateAsteroids(int screenWidth, int screenHeight, float deltaTime) {
+void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime) {
 
 	DetermineDebuggerState();
+	CollisionOfTheShip();
 	
 	for (int i = 0; i < asteroids.size(); i++) {
 
@@ -123,6 +124,31 @@ void Game::DetermineDebuggerState() {
 	}
 }
 
+float Game::CalculateDistanceBetweenEntities(Vector2 firstEntityPosition, Vector2 secondEntityPosition) {
+
+	float distanceBetweenEntities;
+
+	// sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
+	distanceBetweenEntities =
+		sqrt(((firstEntityPosition.x - secondEntityPosition.x) * (firstEntityPosition.x - secondEntityPosition.x)) +
+		((firstEntityPosition.y - secondEntityPosition.y) * (firstEntityPosition.y - secondEntityPosition.y)));
+
+	return distanceBetweenEntities;
+}
+
+bool Game::IsInCollisionRange(float distanceBetweenEntities, float radiusOfEntities) {
+
+	if (distanceBetweenEntities <= radiusOfEntities) {
+
+		return true;
+	}
+	else {
+
+		return false;
+	}
+
+}
+
 void Game::ShowCollisionLines() {
 
 	float distanceBetweenEntities;
@@ -132,40 +158,130 @@ void Game::ShowCollisionLines() {
 
 	glBegin(GL_LINE_LOOP);
 
-	//glColor3f(1.0f, 1.0, 1.0f);
+	glColor3f(1.0f, 1.0, 1.0f);
 
 			if (player->GetDebuggerState() == true) {
 
 					for (int i = 0; i < asteroids.size(); i++) {
 
 						// sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
-						distanceBetweenEntities =
-							sqrt(((player->GetPosition().x - asteroids[i]->GetPosition().x) * (player->GetPosition().x - asteroids[i]->GetPosition().x)) +
-							    ((player->GetPosition().y - asteroids[i]->GetPosition().y) * (player->GetPosition().y - asteroids[i]->GetPosition().y)));
+						distanceBetweenEntities = CalculateDistanceBetweenEntities( player->GetPosition(), asteroids[i]->GetPosition() );
 
 						//Distcance between entities <= detection radius(2 * radius) + radius of the asteroid
-						if (distanceBetweenEntities <= debuggerDetectionRadius + asteroids[i]->GetEntityRadius()) {
+						if (IsInCollisionRange(distanceBetweenEntities, debuggerDetectionRadius + asteroids[i]->GetEntityRadius())) {
 
-							//if is collision range
-							if (distanceBetweenEntities <= player->GetEntityRadius() + asteroids[i]->GetEntityRadius()) {
+							//validate if the player is rendering(dead or alive) so it doesnt or does show the lines of the debugger
+							if (player->GetIsRendering() == true) {
 
-								//change line color to red
-								glColor3f(1.0f, 0.0, 0.0f);
-								
-								glVertex2f(player->GetPosition().x, player->GetPosition().y);
-								glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
+								//if is in collision range
+								if (IsInCollisionRange(distanceBetweenEntities, player->GetEntityRadius() + asteroids[i]->GetEntityRadius())) {
+
+									//change line color to red
+									glColor3f(1.0f, 0.0, 0.0f);
+
+									glVertex2f(player->GetPosition().x, player->GetPosition().y);
+									glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
+								}
+								else {
+
+									//go back to white
+									glColor3f(1.0f, 1.0, 1.0f);
+
+									glVertex2f(player->GetPosition().x, player->GetPosition().y);
+									glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
+								}
+
 							}
-							else {
-
-								//go back to white
-								glColor3f(1.0f, 1.0, 1.0f);
-
-								glVertex2f(player->GetPosition().x, player->GetPosition().y);
-								glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
-							}
-							
 						}
 					}
 			}
 		glEnd();
+}
+
+void Game::CollisionOfTheShip() {
+
+	float distanceBetweenEntities;
+
+	if (player->GetDebuggerState() == false) {
+
+		for (int i = 0; i < asteroids.size(); i++) {
+
+			distanceBetweenEntities = CalculateDistanceBetweenEntities(player->GetPosition(), asteroids[i]->GetPosition());
+
+			if (IsInCollisionRange(distanceBetweenEntities, player->GetEntityRadius() + asteroids[i]->GetEntityRadius())) {
+
+				std::cout << player->GetIsRendering() << std::endl;
+				player->SetIsRendering(false);
+			}
+		}
+	}
+}
+
+void Game::RespawnPlayer() {
+
+	player->RespawnShip();
+}
+
+
+void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
+{
+	switch (keyBoardEvent.keysym.scancode)
+	{
+	case SDL_SCANCODE_W:
+		SDL_Log("Up");
+		player->Impulse();
+		player->SetIsThrusterOn(true);
+		break;
+
+	case SDL_SCANCODE_A:
+		SDL_Log("Left");
+		player->RotateLeft();
+		break;
+
+	case SDL_SCANCODE_D:
+		SDL_Log("Right");
+		player->RotateRight();
+		break;
+
+	case SDL_SCANCODE_S:
+		SDL_Log("Down");
+		break;
+
+	case SDL_SCANCODE_R:
+		SDL_Log("Remove Asteroid");
+		RemoveAsteroid();
+		break;
+
+	case SDL_SCANCODE_T:
+		SDL_Log("Add Asteroid");
+		AddAsteroid();
+		break;
+
+	case SDL_SCANCODE_G:
+		SDL_Log("Debugger Mode");
+		SwitchingDebuggerMode();
+		break;
+
+	case SDL_SCANCODE_Y:
+		SDL_Log("Respawn Player");
+		RespawnPlayer();
+		break;
+
+	default:
+		SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
+		break;
+	}
+}
+
+void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
+{
+	switch (keyBoardEvent.keysym.scancode)
+	{
+	case SDL_SCANCODE_W:
+		player->SetIsThrusterOn(false);
+		break;
+
+	default:
+		break;
+	}
 }

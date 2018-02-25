@@ -11,7 +11,8 @@ private:
 	const float coefficientOfFriction = 0.95f;
 	const float moveForwardValue = 20.0f;
 	const float maxSpeed = 300.0f;
-
+	bool isRendering;
+	
 public:
 	//Constructor
 	Player();
@@ -26,4 +27,7 @@ public:
 	void RotateLeft();
 	void RotateRight();
 	void SetIsThrusterOn(bool thrusterMode);
+	bool GetIsRendering();
+	void SetIsRendering(bool desiredValue);
+	void RespawnShip();
 };
