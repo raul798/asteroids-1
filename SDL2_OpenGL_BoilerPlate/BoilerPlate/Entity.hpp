@@ -31,5 +31,7 @@ public:
 	float CalculateRadius();
 	void EntityDebugger();
 	void DrawHitCircle();
-	void changeDebuggerState();
+	void ChangeDebuggerState();
+	bool getDebuggerState();
+	void setDebuggerState(bool shipDebuggerState);
 };

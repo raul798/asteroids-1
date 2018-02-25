@@ -111,7 +111,7 @@ namespace Engine
 
 		case SDL_SCANCODE_G:
 			SDL_Log("Debugger Mode");
-			game->SwitchgingMode();
+			game->SwitchingDebuggerMode();
 			break;
 
 		default:

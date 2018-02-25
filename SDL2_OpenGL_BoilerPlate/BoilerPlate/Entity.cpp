@@ -115,7 +115,7 @@ void Entity::DrawHitCircle() {
 	
 }
 
-void Entity::changeDebuggerState() {
+void Entity::ChangeDebuggerState() {
 	
 	if(debuggerState == false) {
 
@@ -126,4 +126,16 @@ void Entity::changeDebuggerState() {
 		debuggerState = false;
 	}
 }
+
+bool Entity::getDebuggerState() {
+
+	return debuggerState;
+}
+
+void Entity::setDebuggerState(bool shipDebuggerState) {
+
+	debuggerState = shipDebuggerState;
+}
+
+
 

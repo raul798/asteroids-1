@@ -15,6 +15,7 @@ Game::~Game(){
 
 void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 
+	
 	player->Update(screenWidth, screenHeight, deltaTime);
 	UpdateAsteroids(screenWidth, screenHeight, deltaTime);
 }
@@ -25,11 +26,9 @@ void Game::Render() {
 	RenderAsteroids();
 }
 
-void Game::changeDebuggerState() {
-
-}
-
 void Game::UpdateAsteroids(int screenWidth, int screenHeight, float deltaTime) {
+
+	determineDebuggerState();
 
 	for (int i = 0; i < asteroids.size(); i++) {
 
@@ -85,13 +84,13 @@ void Game::RemoveFromMemory() {
 }
 
 //activate and desactivate player and asteroids debugging mode
-void Game::SwitchgingMode() {
+void Game::SwitchingDebuggerMode() {
 
-	player->changeDebuggerState();
+	player->ChangeDebuggerState();
 
 	for (int i = 0; i < asteroids.size(); i++) {
 
-		asteroids[i]->changeDebuggerState();
+		asteroids[i]->ChangeDebuggerState();
 	}
 }
 
@@ -110,3 +109,22 @@ float Game::getNumberOfAsteroids() {
 
 	return numberOfAsteroids;
 }
+
+void Game::determineDebuggerState() {
+
+	if (player->getDebuggerState() == true) {
+
+		for (int i = 0; i < asteroids.size(); i++) {
+
+			asteroids[i]->setDebuggerState(true);
+		}
+	}
+}
+
+//void Game::ShowCollisionLines() {
+
+	//if (player->getDebuggerState == true) {
+
+
+	//}
+//}
