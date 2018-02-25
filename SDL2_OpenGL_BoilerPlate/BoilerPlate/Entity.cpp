@@ -22,7 +22,6 @@ void Entity::Render() {
 	glLoadIdentity();
 	glTranslatef(position->x, position->y, 0.0f);
 	
-
 	DrawEntity();
 }
 

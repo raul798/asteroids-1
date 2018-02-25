@@ -15,6 +15,7 @@
 #include "MathUtilities.hpp"
 #include "Player.hpp"
 #include "Asteroid.hpp"
+#include "Game.hpp"
 
 namespace Engine
 {
@@ -47,15 +48,6 @@ namespace Engine
 		void Update							( );
 		void Render							( );
 
-		//My functions
-		void SpawnAsteroids();
-		void RenderAsteroids();
-		void UpdateAsteroids(int screenWidth, int screenHeight, float deltaTime);
-		void AddAsteroid();
-		void RemoveAsteroid();
-		void RemoveFromMemory();
-		void SwitchgingMode();
-
 	private:
 		/* =============================================================
 		 * PRIVATE FUNCTIONS
@@ -83,10 +75,8 @@ namespace Engine
 		GameState::State					m_state;
 		Engine::TimeManager*				m_timer;
 
-		//player and asteroid declaration
-		Player *player;
-		std::vector<Asteroid*> asteroids;
-		float numberOfAsteroids;
+		//Game member
+		Game *game;
 	};
 }
 #endif /* GAME_HPP */
