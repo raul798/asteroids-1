@@ -7,10 +7,10 @@
 class Game {
 
 public:
-	Player *player;
+	Player * player;
 	std::vector<Asteroid*> asteroids;
 	std::vector<Bullet*> bullets;
-	float numberOfAsteroids; 
+	float numberOfAsteroids;
 
 	//Constructor and destructor
 	Game();
@@ -36,7 +36,9 @@ public:
 	void UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime);
 	void RenderBullets();
 	void CollisionOfTheBullet();
+	//void LimitBullets();
 
 	//Input
 	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
 	void OnKeyUp(SDL_KeyboardEvent keyBoardEvent);
+};
