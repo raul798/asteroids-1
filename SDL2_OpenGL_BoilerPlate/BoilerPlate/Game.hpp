@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.hpp"
 #include "Asteroid.hpp"
+#include "Bullet.hpp"
 #include "SDLEvent.hpp"
 
 class Game {
@@ -8,6 +9,7 @@ class Game {
 public:
 	Player *player;
 	std::vector<Asteroid*> asteroids;
+	std::vector<Bullet*> bullets;
 	float numberOfAsteroids; 
 
 	//Constructor and destructor
@@ -30,6 +32,9 @@ public:
 	float CalculateDistanceBetweenEntities(Vector2 firstEntityPosition, Vector2 secondEntityPosition);
 	void CollisionOfTheShip();
 	void RespawnPlayer();
+	void shootBullet();
+	void UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime);
+	void RenderBullets();
 
 	//Input
 	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);

@@ -6,6 +6,7 @@ Game::Game() {
 	numberOfAsteroids = 5.0f;
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
+	//bullets = std::vector<Bullet*>();
 }
 
 Game::~Game(){
@@ -16,14 +17,17 @@ Game::~Game(){
 void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 
 	
+	
 	player->Update(screenWidth, screenHeight, deltaTime);
 	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
+	UpdateAllBullets(screenWidth, screenHeight, deltaTime);
 }
 
 void Game::Render() {
 
 	player->Render();
 	RenderAsteroids();
+	RenderBullets();
 }
 
 void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime) {
@@ -65,7 +69,7 @@ void Game::RemoveAsteroid() {
 
 	if (numberOfAsteroids < 1) {
 
-		std::cout << "can't remove more asteroids" << std::endl;
+		std::cout << "Can't remove more asteroids" << std::endl;
 	}
 	else {
 
@@ -158,6 +162,7 @@ void Game::ShowCollisionLines() {
 
 	glBegin(GL_LINE_LOOP);
 
+	//white color
 	glColor3f(1.0f, 1.0, 1.0f);
 
 			if (player->GetDebuggerState() == true) {
@@ -267,6 +272,11 @@ void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 		RespawnPlayer();
 		break;
 
+	case SDL_SCANCODE_SPACE:
+		SDL_Log("Shoot");
+		shootBullet();
+		break;
+
 	default:
 		SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 		break;
@@ -284,4 +294,26 @@ void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	default:
 		break;
 	}
+}
+
+void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
+
+	for (int i = 0; i < bullets.size(); i++) {
+	
+		bullets[i]->Update(screenWidth, screenHeight, deltaTime);
+		std::cout << bullets.size() <<"   " << std::endl;
+	}
+}
+
+void Game::RenderBullets() {
+
+	for (int i = 0; i < bullets.size(); i++) {
+
+		bullets[i]->Render();
+	}
+}
+
+void Game::shootBullet() {
+
+	bullets.push_back(new Bullet(*player));
 }

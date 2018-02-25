@@ -119,3 +119,8 @@ void Player::RespawnShip() {
 	isRendering = true;
 	position = new Vector2(0.0f, 0.0f);
 }
+
+float Player::GetShipAngle() {
+
+	return shipOrientation;
+}

@@ -36,7 +36,9 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Game.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp" />
@@ -72,7 +74,9 @@
     <ClInclude Include="Bullet.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Game.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

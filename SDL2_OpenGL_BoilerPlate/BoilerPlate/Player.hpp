@@ -29,5 +29,6 @@ public:
 	void SetIsThrusterOn(bool thrusterMode);
 	bool GetIsRendering();
 	void SetIsRendering(bool desiredValue);
+	float GetShipAngle();
 	void RespawnShip();
 };
