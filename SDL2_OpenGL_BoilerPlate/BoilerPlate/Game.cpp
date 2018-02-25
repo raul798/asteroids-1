@@ -6,7 +6,6 @@ Game::Game() {
 	numberOfAsteroids = 5.0f;
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
-	//bullets = std::vector<Bullet*>();
 }
 
 Game::~Game(){
@@ -76,7 +75,6 @@ void Game::RemoveAsteroid() {
 		asteroids.pop_back();
 		numberOfAsteroids = asteroids.size();
 	}
-
 }
 
 void Game::RemoveFromMemory() {
@@ -99,22 +97,6 @@ void Game::SwitchingDebuggerMode() {
 
 		asteroids[i]->ChangeDebuggerState();
 	}
-}
-
-//Members getters
-Player Game::GetPlayer() {
-
-	return *player;
-}
-
-std::vector<Asteroid*> Game::GetAsteroids() {
-
-	return asteroids;
-}
-
-float Game::GetNumberOfAsteroids() {
-
-	return numberOfAsteroids;
 }
 
 void Game::DetermineDebuggerState() {
@@ -215,7 +197,6 @@ void Game::CollisionOfTheShip() {
 
 			if (IsInCollisionRange(distanceBetweenEntities, player->GetEntityRadius() + asteroids[i]->GetEntityRadius())) {
 
-				std::cout << player->GetIsRendering() << std::endl;
 				player->SetIsRendering(false);
 			}
 		}
@@ -226,7 +207,6 @@ void Game::RespawnPlayer() {
 
 	player->RespawnShip();
 }
-
 
 void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 {
@@ -298,10 +278,11 @@ void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 
 void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
 
+	CollisionOfTheBullet();
+
 	for (int i = 0; i < bullets.size(); i++) {
 	
 		bullets[i]->Update(screenWidth, screenHeight, deltaTime);
-		std::cout << bullets.size() <<"   " << std::endl;
 	}
 }
 
@@ -316,4 +297,25 @@ void Game::RenderBullets() {
 void Game::shootBullet() {
 
 	bullets.push_back(new Bullet(*player));
+}
+
+void Game::CollisionOfTheBullet(){
+
+	float distanceBetweenEntities;
+
+	if (player->GetDebuggerState() == false) {
+
+		for (int i = 0; i < bullets.size(); i++) {
+
+			for (int j = 0; j < asteroids.size(); j++) {
+
+				distanceBetweenEntities = CalculateDistanceBetweenEntities(bullets[i]->GetPosition(), asteroids[j]->GetPosition());
+	
+				if (IsInCollisionRange(distanceBetweenEntities, bullets[i]->GetEntityRadius() + asteroids[j]->GetEntityRadius())) {
+
+					bullets[i]->SetIsRendering(false);
+				}
+			}
+		}
+	}
 }

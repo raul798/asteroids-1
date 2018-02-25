@@ -2,27 +2,21 @@
 
 Bullet::Bullet(Player playerShip) {
 
-	MathUtilities mathUtilities;
-
-	speed = 200.0f;
+	speed = 400.0f;
 	bulletAngle = playerShip.GetShipAngle();
-
-	//xAxis of the bullet = x + ((cos(ship angle) + (distance to the tip of the ship)) * -sin(ship angle))
-	position->x = playerShip.GetPosition().x + ((cosf(mathUtilities.degreesToRadians(bulletAngle)) + 
-		playerShip.GetEntityRadius()) * (-sinf(mathUtilities.degreesToRadians(bulletAngle))));
-
-	//xAxis of the bullet = x + ((-sin(ship angle) + (distance to the tip of the ship)) * cos(ship angle))
-	position->y = playerShip.GetPosition().y + ((-sinf(mathUtilities.degreesToRadians(bulletAngle)) + 
-		playerShip.GetEntityRadius()) * (cosf(mathUtilities.degreesToRadians(bulletAngle))));
-						   
+	CalculateBulletPosition(playerShip);
+	radius = CalculateRadius();
 }
 
 void Bullet::Render() {
 
-	glLoadIdentity();
-	glTranslatef(position->x, position->y, 0.0f);
+	if (isRendering == true) {
 
-	DrawEntity();
+		glLoadIdentity();
+		glTranslatef(position->x, position->y, 0.0f);
+
+		DrawEntity();
+	}
 }
 
 void Bullet::Update(int screenWidth, int screenHeight, float deltaTime) {
@@ -39,15 +33,17 @@ void Bullet::BulletMovement() {
 	entityVelocity->y = (speed / mass) * cosf(mathUtilities.degreesToRadians(bulletAngle));
 }
 
-void Bullet::CalculateBulletAngle(Vector2 playerShipPosition) {
+void Bullet::CalculateBulletPosition(Player playerShip) {
 
-	bulletAngle = atan2f(playerShipPosition.y, playerShipPosition.y);
-}
+	MathUtilities mathUtilities;
 
-void Bullet::CalculateBulletPosition(float distanceCenterToTip) {
+	//xAxis of the bullet = x + ((cos(ship angle) + (distance to the tip of the ship)) * -sin(ship angle))
+	position->x = playerShip.GetPosition().x + ((cosf(mathUtilities.degreesToRadians(bulletAngle)) +
+		playerShip.GetEntityRadius()) * (-sinf(mathUtilities.degreesToRadians(bulletAngle))));
 
-	position->x = cosf(bulletAngle) * 20.0f;
-	position->y = sinf(bulletAngle) * 20.0f;
+	//xAxis of the bullet = x + ((-sin(ship angle) + (distance to the tip of the ship)) * cos(ship angle))
+	position->y = playerShip.GetPosition().y + ((-sinf(mathUtilities.degreesToRadians(bulletAngle)) +
+		playerShip.GetEntityRadius()) * (cosf(mathUtilities.degreesToRadians(bulletAngle))));
 }
 
 void Bullet::PushDrawEntityVertex() {

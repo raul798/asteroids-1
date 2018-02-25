@@ -16,6 +16,7 @@ protected:
 	float speed;
 	float radius;
 	bool debuggerState;
+	bool isRendering;
 
 
 public:
@@ -36,4 +37,6 @@ public:
 	void SetDebuggerState(bool shipDebuggerState);
 	Vector2 GetPosition();
 	float GetEntityRadius();
+	bool GetIsRendering();
+	void SetIsRendering(bool desiredValue);
 };

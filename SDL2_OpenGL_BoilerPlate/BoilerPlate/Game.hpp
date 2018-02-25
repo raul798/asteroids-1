@@ -35,13 +35,8 @@ public:
 	void shootBullet();
 	void UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime);
 	void RenderBullets();
+	void CollisionOfTheBullet();
 
 	//Input
 	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
 	void OnKeyUp(SDL_KeyboardEvent keyBoardEvent);
-
-	//Members getters
-	Player GetPlayer();
-	std::vector<Asteroid*> GetAsteroids();
-	float GetNumberOfAsteroids();
-};

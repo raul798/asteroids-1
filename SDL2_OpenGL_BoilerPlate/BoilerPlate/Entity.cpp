@@ -6,7 +6,7 @@ Entity::Entity() {
 	mass = 1.0f;
 	entityVelocity = new Vector2(0.0f, 0.0f);
 	debuggerState = false;
-
+	isRendering = true;
 }
 
 void Entity::Update(int screenWidth, int screenHeight, float deltaTime) {
@@ -149,6 +149,16 @@ Vector2 Entity::GetPosition() {
 float Entity::GetEntityRadius() {
 
 	return radius;
+}
+
+bool Entity::GetIsRendering() {
+
+	return isRendering;
+}
+
+void Entity::SetIsRendering(bool desiredValue) {
+
+	isRendering = desiredValue;
 }
 
 

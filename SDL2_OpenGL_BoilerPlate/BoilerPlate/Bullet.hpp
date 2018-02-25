@@ -17,6 +17,5 @@ public:
 	virtual void PushDrawEntityVertex();
 	virtual void DrawEntity();
 	void BulletMovement();
-	void CalculateBulletAngle(Vector2 playerShipPosition);
-	void CalculateBulletPosition(float distanceCenterToTip);
+	void CalculateBulletPosition(Player playerShip);
 };

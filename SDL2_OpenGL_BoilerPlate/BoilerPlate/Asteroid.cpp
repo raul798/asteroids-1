@@ -4,7 +4,7 @@ Asteroid::Asteroid() {
 	
 	//small size default
 	position = new Vector2(rand(), rand());
-	asteroidSize = rand() % 4;
+	asteroidSize = 3;
 	asteroidRotationAngle = 0.0f;
 	PushDrawEntityVertex();
 	CalculateRandomOrientation();
