@@ -46,6 +46,16 @@ namespace Engine
 		bool Init							( );
 		void Update							( );
 		void Render							( );
+
+		//My functions
+		void SpawnAsteroids();
+		void RenderAsteroids();
+		void UpdateAsteroids(int screenWidth, int screenHeight, float deltaTime);
+		void AddAsteroid();
+		void RemoveAsteroid();
+		void RemoveFromMemory();
+		void SwitchgingMode();
+
 	private:
 		/* =============================================================
 		 * PRIVATE FUNCTIONS
@@ -74,9 +84,9 @@ namespace Engine
 		Engine::TimeManager*				m_timer;
 
 		//player and asteroid declaration
-		Player *player = new Player();
-		Asteroid *asteroid = new Asteroid(asteroid->MEDIUM_SIZE);
-
+		Player *player;
+		std::vector<Asteroid*> asteroids;
+		float numberOfAsteroids;
 	};
 }
 #endif /* GAME_HPP */

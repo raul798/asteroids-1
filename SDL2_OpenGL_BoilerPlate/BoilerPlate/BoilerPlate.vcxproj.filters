@@ -30,7 +30,12 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="Asteroid.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp" />
@@ -61,6 +66,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="Asteroid.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

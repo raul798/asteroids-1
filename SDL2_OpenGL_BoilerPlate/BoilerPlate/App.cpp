@@ -21,10 +21,18 @@ namespace Engine
 	{
 		m_state = GameState::UNINITIALIZED;
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
+
+		player = new Player();
+
+		asteroids = std::vector<Asteroid*>(5);
+		numberOfAsteroids = asteroids.size();
+		SpawnAsteroids();
 	}
 
 	App::~App()
 	{
+		RemoveFromMemory();
+
 		CleanupSDL();
 	}
 
@@ -82,7 +90,7 @@ namespace Engine
 		{
 		case SDL_SCANCODE_W:
 			SDL_Log("Up");
-			player->MoveFroward(m_width, m_height);
+			player->Impulse();
 			player->setIsThrusterOn(true);
 			break;
 
@@ -98,6 +106,21 @@ namespace Engine
 
 		case SDL_SCANCODE_S:
 			SDL_Log("Down");
+			break;
+
+		case SDL_SCANCODE_R:
+			RemoveAsteroid();
+			SDL_Log("Remove Asteroid");
+			break;
+
+		case SDL_SCANCODE_T:
+			AddAsteroid();
+			SDL_Log("Add Asteroid");
+			break;
+
+		case SDL_SCANCODE_G:
+			SDL_Log("Debugger Mode");
+			SwitchgingMode();
 			break;
 
 		default:			
@@ -130,12 +153,15 @@ namespace Engine
 
 		// Update code goes here
 		//
+		player->Update(m_width, m_height, DESIRED_FRAME_TIME);
+		UpdateAsteroids(m_width, m_height, DESIRED_FRAME_TIME);
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
 
 		while (endTime < nextTimeFrame)
 		{
+			
 			// Spin lock
 
 			endTime = m_timer->GetElapsedTimeInSeconds();
@@ -157,8 +183,8 @@ namespace Engine
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		player->Render();
-		asteroid->Render();
-
+		RenderAsteroids();
+		
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
 
@@ -254,7 +280,7 @@ namespace Engine
 	void App::OnResize(int width, int height)
 	{
 		// TODO: Add resize functionality
-		//
+		
 		m_width = width;
 		m_height = height;
 
@@ -271,4 +297,72 @@ namespace Engine
 		//
 		CleanupSDL();
 	}
+
+	void App::SpawnAsteroids() {
+
+		for (int i = 0; i < asteroids.size(); i++) {
+
+			asteroids[i] = new Asteroid();
+		}
+	}
+
+	void App::RenderAsteroids() {
+
+		for (int i = 0; i < asteroids.size(); i++) {
+
+			asteroids[i]->Render();
+		}
+	}
+
+	void App::UpdateAsteroids(int screenWidth, int screenHeight, float deltaTime) {
+
+		for (int i = 0; i < asteroids.size(); i++) {
+
+			asteroids[i]->Update(screenWidth, screenHeight, deltaTime);
+		}
+	}
+
+	void App::AddAsteroid() {
+
+		asteroids.push_back(new Asteroid());
+	}
+
+	void App::RemoveAsteroid() {
+
+		int numberOfAsteroids = asteroids.size();
+
+		if (numberOfAsteroids < 1) {
+
+			std::cout << "can't remove more asteroids" << std::endl;
+		}
+		else {
+
+			asteroids.pop_back();
+		}
+		
+	}
+
+	void App::RemoveFromMemory(){
+
+		for (Asteroid* i : asteroids)
+		{
+			delete i;
+		}
+
+		delete player;
+
+	}
+
+	//activate and desactivate player and asteroids debugging mode
+	void App::SwitchgingMode() {
+
+		player->changeDebuggerState();
+
+		for (int i = 0; i < asteroids.size(); i++) {
+
+			asteroids[i]->changeDebuggerState();
+		}
+	}
 }
+
+
