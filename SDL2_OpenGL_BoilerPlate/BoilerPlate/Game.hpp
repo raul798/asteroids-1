@@ -1,19 +1,25 @@
 #pragma once
 #include "Player.hpp"
 #include "Asteroid.hpp"
+#include "InputManager.hpp"
 #include "Bullet.hpp"
 #include "SDLEvent.hpp"
 #include <ctime>
 
 class Game {
 
-public:
+private:
 	Player * player;
 	std::vector<Asteroid*> asteroids;
 	std::vector<Bullet*> bullets;
 	float numberOfAsteroids;
+	//Limit the amount of inputs
+	int inputCounter;
+	
 
+public:
 	//Constructor and destructor
+	InputManager inputManager;
 	Game();
 	~Game();
 
@@ -42,6 +48,7 @@ public:
 	
 
 	//Input
-	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
-	void OnKeyUp(SDL_KeyboardEvent keyBoardEvent);
+	InputManager GetInputManager();
+	void InputController();
+	void ResetInputCounter();
 };

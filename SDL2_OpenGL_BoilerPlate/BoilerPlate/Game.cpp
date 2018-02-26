@@ -6,6 +6,7 @@ Game::Game() {
 	numberOfAsteroids = 5.0f;
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
+	ResetInputCounter();
 }
 
 Game::~Game(){
@@ -14,6 +15,13 @@ Game::~Game(){
 }
 
 void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
+
+	InputController();
+
+	if (inputCounter > 0) {
+
+		inputCounter--;
+	}
 
 	player->Update(screenWidth, screenHeight, deltaTime);
 	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
@@ -222,74 +230,6 @@ void Game::RespawnPlayer() {
 	player->RespawnShip();
 }
 
-void Game::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
-{
-	switch (keyBoardEvent.keysym.scancode)
-	{
-	case SDL_SCANCODE_W:
-		SDL_Log("Up");
-		player->Impulse();
-		player->SetIsThrusterOn(true);
-		break;
-
-	case SDL_SCANCODE_A:
-		SDL_Log("Left");
-		player->RotateLeft();
-		break;
-
-	case SDL_SCANCODE_D:
-		SDL_Log("Right");
-		player->RotateRight();
-		break;
-
-	case SDL_SCANCODE_S:
-		SDL_Log("Down");
-		break;
-
-	case SDL_SCANCODE_R:
-		SDL_Log("Remove Asteroid");
-		RemoveAsteroid();
-		break;
-
-	case SDL_SCANCODE_T:
-		SDL_Log("Add Asteroid");
-		AddAsteroid();
-		break;
-
-	case SDL_SCANCODE_G:
-		SDL_Log("Debugger Mode");
-		SwitchingDebuggerMode();
-		break;
-
-	case SDL_SCANCODE_Y:
-		SDL_Log("Respawn Player");
-		RespawnPlayer();
-		break;
-
-	case SDL_SCANCODE_SPACE:
-		SDL_Log("Shoot");
-		shootBullet();
-		break;
-
-	default:
-		SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
-		break;
-	}
-}
-
-void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
-{
-	switch (keyBoardEvent.keysym.scancode)
-	{
-	case SDL_SCANCODE_W:
-		player->SetIsThrusterOn(false);
-		break;
-
-	default:
-		break;
-	}
-}
-
 void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
 
 	CollisionOfTheBullet();
@@ -444,5 +384,71 @@ void Game::CalculateFrameRate() {
 			
 		std::cout << fps << std::endl;
 	}
+}
+
+void Game::InputController() {
+
+	if (inputManager.GetW()) {
+
+		player->Impulse();
+		player->SetIsThrusterOn(true);
+	}
+	else {
+
+		player->SetIsThrusterOn(false);
+	}
+
+	if (inputManager.GetA()) {
+
+		player->RotateLeft();
+	}
+
+	if (inputManager.GetD()) {
+
+		player->RotateRight();
+	}
+
+	if (inputManager.GetR() && inputCounter == 0) {
+
+		RemoveAsteroid();
+
+		ResetInputCounter();
+	}
+
+	if (inputManager.GetT() && inputCounter == 0) {
+
+		AddAsteroid();
+
+		ResetInputCounter();
+	}
+
+	if (inputManager.GetG() && inputCounter == 0) {
+
+		SwitchingDebuggerMode();
+
+		ResetInputCounter();
+	}
+
+	if (inputManager.GetY()) {
+
+		RespawnPlayer();
+	}
+
+	if (inputManager.GetSpace() && inputCounter == 0) {
+
+		shootBullet();
+
+		ResetInputCounter();
+	}
+}
+
+InputManager Game::GetInputManager() {
+
+	return inputManager;
+}
+
+void Game::ResetInputCounter() {
+
+	inputCounter = 10;
 }
 

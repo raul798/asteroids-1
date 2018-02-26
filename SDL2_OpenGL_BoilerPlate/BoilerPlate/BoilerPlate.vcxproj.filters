@@ -39,6 +39,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp" />
@@ -75,6 +78,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="Game.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

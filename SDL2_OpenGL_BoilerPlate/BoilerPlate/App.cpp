@@ -77,21 +77,89 @@ namespace Engine
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
 	{
-		game->OnKeyDown(keyBoardEvent);
+		switch (keyBoardEvent.keysym.scancode)
+		{
+		case SDL_SCANCODE_W:
+			SDL_Log("Up");
+			game->inputManager.SetW(true);
+			break;
+
+		case SDL_SCANCODE_A:
+			SDL_Log("Left");
+			game->inputManager.SetA(true);
+			break;
+
+		case SDL_SCANCODE_D:
+			SDL_Log("Right");
+			game->inputManager.SetD(true);
+			break;
+
+		case SDL_SCANCODE_R:
+			SDL_Log("Remove Asteroid");
+			game->inputManager.SetR(true);
+			break;
+
+		case SDL_SCANCODE_T:
+			SDL_Log("Add Asteroid");
+			game->inputManager.SetT(true);
+			break;
+
+		case SDL_SCANCODE_G:
+			SDL_Log("Debugger Mode");
+			game->inputManager.SetG(true);
+			break;
+
+		case SDL_SCANCODE_Y:
+			SDL_Log("Respawn Player");
+			game->inputManager.SetY(true);
+			break;
+
+		case SDL_SCANCODE_SPACE:
+			SDL_Log("Shoot");
+			game->inputManager.SetSpace(true);
+			break;
+
+		}
 	}
 
 	void App::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	{
-		game->OnKeyUp(keyBoardEvent);
-
 		switch (keyBoardEvent.keysym.scancode)
 		{
-		case SDL_SCANCODE_ESCAPE:
-			OnExit();
+		case SDL_SCANCODE_W:
+			game->inputManager.SetW(false);
+			break;
+
+		case SDL_SCANCODE_A:
+			game->inputManager.SetA(false);
+			break;
+
+		case SDL_SCANCODE_D:
+			game->inputManager.SetD(false);
+			break;
+
+		case SDL_SCANCODE_R:
+			game->inputManager.SetR(false);
+			break;
+
+		case SDL_SCANCODE_T:
+			game->inputManager.SetT(false);
+			break;
+
+		case SDL_SCANCODE_G:
+			game->inputManager.SetG(false);
+			break;
+
+		case SDL_SCANCODE_Y:
+			game->inputManager.SetY(false);
+			break;
+
+		case SDL_SCANCODE_SPACE:
+			game->inputManager.SetSpace(false);
 			break;
 
 		default:
-			//DO NOTHING
+			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
 		}
 	}
