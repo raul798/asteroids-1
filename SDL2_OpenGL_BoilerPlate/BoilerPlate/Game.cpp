@@ -84,6 +84,11 @@ void Game::RemoveFromMemory() {
 		delete i;
 	}
 
+	for (Bullet* i : bullets)
+	{
+		delete i;
+	}
+
 	delete player;
 
 }
@@ -279,7 +284,8 @@ void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
 
 	CollisionOfTheBullet();
-
+	LimitBulletDistance();
+	
 	for (int i = 0; i < bullets.size(); i++) {
 	
 		bullets[i]->Update(screenWidth, screenHeight, deltaTime);
@@ -299,9 +305,12 @@ void Game::shootBullet() {
 	//check if is alive
 	if (player->GetIsRendering() == true) {
 
-		bullets.push_back(new Bullet(*player));
+		//limit the amount of bullets to 4
+		if (bullets.size() < 4) {
+
+			bullets.push_back(new Bullet(*player));
+		}
 	}
-	
 }
 
 void Game::CollisionOfTheBullet(){
@@ -318,14 +327,43 @@ void Game::CollisionOfTheBullet(){
 	
 				if (IsInCollisionRange(distanceBetweenEntities, bullets[i]->GetEntityRadius() + asteroids[j]->GetEntityRadius())) {
 
+					//divide asteroids depending on size
+					if(asteroids[j]->GetAsteroidSize() == 3) {
+
+						asteroids.push_back(new Asteroid(2, asteroids[j]->GetPosition()));
+						asteroids.push_back(new Asteroid(2, asteroids[j]->GetPosition()));
+					}
+					if(asteroids[j]->GetAsteroidSize() == 2) {
+
+						asteroids.push_back(new Asteroid(1, asteroids[j]->GetPosition()));
+						asteroids.push_back(new Asteroid(1, asteroids[j]->GetPosition()));
+					}
+					
 					//remove the asteroid and the bullet on impact
-					bullets[i]->SetIsRendering(false);
-					asteroids[j]->SetIsRendering(false);
 					asteroids.erase(asteroids.begin() + j);
 					bullets.erase(bullets.begin() + i);
+					numberOfAsteroids = asteroids.size();
 					break;
 				}
 			}
 		}
 	}
 }
+
+void Game::LimitBulletDistance() {
+
+	for (int i = 0; i < bullets.size(); i++) {
+
+		float distanceTraveled;
+		float maxPossibleDistance = 400.0f;
+		distanceTraveled = CalculateDistanceBetweenEntities(bullets[i]->GetBulletOriginalPosition(), bullets[i]->GetPosition());
+		
+		if (distanceTraveled >= maxPossibleDistance){
+
+			bullets.erase(bullets.begin() + i);
+			break;
+		}
+		
+	}
+}
+

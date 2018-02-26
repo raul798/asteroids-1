@@ -36,7 +36,7 @@ public:
 	void UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime);
 	void RenderBullets();
 	void CollisionOfTheBullet();
-	//void LimitBullets();
+	void LimitBulletDistance();
 
 	//Input
 	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);

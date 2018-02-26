@@ -2,10 +2,11 @@
 
 Bullet::Bullet(Player playerShip) {
 
-	speed = 400.0f;
+	speed = 550.0f;
 	bulletAngle = playerShip.GetShipAngle();
 	CalculateBulletPosition(playerShip);
 	radius = CalculateRadius();
+	bulletOriginalPosition = new Vector2(position->x, position->y);
 }
 
 void Bullet::Render() {
@@ -21,7 +22,12 @@ void Bullet::Render() {
 
 void Bullet::Update(int screenWidth, int screenHeight, float deltaTime) {
 
-	Entity::Update(screenWidth, screenHeight, deltaTime);
+	//Entity::Update(screenWidth, screenHeight, deltaTime);
+	position->x += entityVelocity->x * deltaTime;
+	position->y += entityVelocity->y * deltaTime;
+
+	//Warping(screenWidth, screenHeight);
+
 	BulletMovement();
 }
 
@@ -71,4 +77,9 @@ void Bullet::DrawEntity() {
 	}
 
 	glEnd();
+}
+
+Vector2 Bullet::GetBulletOriginalPosition() {
+
+	return *bulletOriginalPosition;
 }

@@ -6,6 +6,7 @@ class Bullet : public Entity {
 
 private:
 	float bulletAngle;
+	Vector2 *bulletOriginalPosition;
 
 public:
 	//constructor
@@ -18,4 +19,5 @@ public:
 	virtual void DrawEntity();
 	void BulletMovement();
 	void CalculateBulletPosition(Player playerShip);
+	Vector2 GetBulletOriginalPosition();
 };

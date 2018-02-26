@@ -21,7 +21,8 @@ public:
 
 	//Constructors
 	Asteroid();
-	Asteroid(AsteroidSize asteroidSizeRatio);
+	Asteroid(int asteroidSizeRatio);
+	Asteroid(int asteroidSizeRatio, Vector2 desiredPosition);
 
 	//Functions
 	virtual void Update(int screenWidth, int screenHeight, float deltaTime);

@@ -2,7 +2,7 @@
 
 Asteroid::Asteroid() {
 	
-	//small size default
+	//big size default
 	position = new Vector2(rand(), rand());
 	asteroidSize = 3;
 	asteroidRotationAngle = 0.0f;
@@ -11,12 +11,26 @@ Asteroid::Asteroid() {
 	radius = CalculateRadius();
 }
 
-Asteroid::Asteroid(AsteroidSize asteroidSizeRatio) {
+Asteroid::Asteroid(int asteroidSizeRatio) {
 
+	position = new Vector2(rand(), rand());
 	asteroidSize = asteroidSizeRatio;
 	asteroidRotationAngle = 0.0f;
 	PushDrawEntityVertex();
 	CalculateRandomOrientation();
+	radius = CalculateRadius();
+
+}
+
+Asteroid::Asteroid(int asteroidSizeRatio, Vector2 desiredPosition) {
+
+	position = new Vector2(desiredPosition.x, desiredPosition.y);
+	asteroidSize = asteroidSizeRatio;
+	asteroidRotationAngle = 0.0f;
+	PushDrawEntityVertex();
+	CalculateRandomOrientation();
+	radius = CalculateRadius();
+
 }
 
 void Asteroid::Update(int screenWidth, int screenHeight, float deltaTime) {
