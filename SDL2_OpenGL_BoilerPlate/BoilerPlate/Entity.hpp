@@ -2,7 +2,7 @@
 #include "Vector4.hpp"
 #include <iostream>
 #include <stdlib.h>
-#include <time.h>
+#include <ctime>
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 

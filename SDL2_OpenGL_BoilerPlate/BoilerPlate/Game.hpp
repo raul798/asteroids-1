@@ -28,7 +28,7 @@ public:
 	void SwitchingDebuggerMode();
 	void DetermineDebuggerState();
 	bool IsInCollisionRange(float distanceBetweenEntities, float radiusOfEntities);
-	void ShowCollisionLines();
+	void ShowShipCollisionLines();
 	float CalculateDistanceBetweenEntities(Vector2 firstEntityPosition, Vector2 secondEntityPosition);
 	void CollisionOfTheShip();
 	void RespawnPlayer();
@@ -37,6 +37,8 @@ public:
 	void RenderBullets();
 	void CollisionOfTheBullet();
 	void LimitBulletDistance();
+	void CalculateFrameRate();
+	void ShowBulletsCollisionLines();
 
 	//Input
 	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
