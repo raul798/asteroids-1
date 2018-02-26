@@ -2,18 +2,58 @@
 
 Asteroid::Asteroid() {
 	
-	//small size default
-	asteroidSize = 1;
+	//big size default
+	position = new Vector2(rand(), rand());
+	asteroidSize = 3;
+	asteroidRotationAngle = 0.0f;
 	PushDrawEntityVertex();
+	CalculateRandomOrientation();
+	radius = CalculateRadius();
 }
 
-Asteroid::Asteroid(AsteroidSize asteroidSizeRatio) {
+Asteroid::Asteroid(int asteroidSizeRatio) {
 
+	position = new Vector2(rand(), rand());
 	asteroidSize = asteroidSizeRatio;
+	asteroidRotationAngle = 0.0f;
 	PushDrawEntityVertex();
+	CalculateRandomOrientation();
+	radius = CalculateRadius();
+
 }
 
-void Asteroid::Update() {}
+Asteroid::Asteroid(int asteroidSizeRatio, Vector2 desiredPosition) {
+
+	position = new Vector2(desiredPosition.x, desiredPosition.y);
+	asteroidSize = asteroidSizeRatio;
+	asteroidRotationAngle = 0.0f;
+	PushDrawEntityVertex();
+	CalculateRandomOrientation();
+	radius = CalculateRadius();
+
+}
+
+void Asteroid::Update(int screenWidth, int screenHeight, float deltaTime) {
+	
+	Entity::Update(screenWidth, screenHeight, deltaTime);
+	AsteroidMovement();
+
+	//changing asteroid rotation angle
+	asteroidRotationAngle += asteroidRotationValue * deltaTime;
+}
+
+void Asteroid::Render() {
+
+	if (isRendering == true) {
+
+		glLoadIdentity();
+		glTranslatef(position->x, position->y, 0.0f);
+		glRotatef(asteroidRotationAngle, 0.0f, 0.0f, 1.0f);
+
+		DrawEntity();
+		EntityDebugger();
+	}
+}
 
 int Asteroid::GetAsteroidSize() {
 	return asteroidSize;
@@ -43,4 +83,18 @@ void Asteroid::PushDrawEntityVertex() {
 	entityVertexContainer.push_back(Vector2(-12.5f * asteroidSizeRatio, 14.5f * asteroidSizeRatio));
 	entityVertexContainer.push_back(Vector2(-5.0f * asteroidSizeRatio, 15.0f * asteroidSizeRatio));
 }
+
+void Asteroid::CalculateRandomOrientation() {
+
+	asteroidOrientation = rand() % 360;
+}
+
+void Asteroid::AsteroidMovement() {
+
+	MathUtilities mathUtilities;
+
+	entityVelocity->x = (asteroidMovementSpeed / mass) * -sinf(mathUtilities.degreesToRadians(asteroidOrientation)) + asteroidSize;
+	entityVelocity->y = (asteroidMovementSpeed / mass) * cosf(mathUtilities.degreesToRadians(asteroidOrientation)) + asteroidSize;
+}
+
 

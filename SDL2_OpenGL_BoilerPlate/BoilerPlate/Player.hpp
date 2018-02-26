@@ -7,24 +7,25 @@ private:
 	bool isThrusterOn;
 	float shipOrientation;
 	std::vector<Vector2> thrusterVertexContainer;
-	float mass;
 	const float rotationValue = 20.0f;
-	const float moveForwardValue = 5.0f;
-
+	const float coefficientOfFriction = 0.95f;
+	const float moveForwardValue = 20.0f;
+	const float maxSpeed = 300.0f;
+	
 public:
 	//Constructor
 	Player();
 
 	//Functions
-	virtual void Update();
+	virtual void Update(int screenWidth, int screenHeight, float deltaTime);
 	virtual void PushDrawEntityVertex();
 	virtual void Render();
+	virtual void Impulse();
 	void DrawThruster();
 	void PushDrawThrusterVertex();
-	void MoveFroward(int screenWidth, int screenHeight);
 	void RotateLeft();
 	void RotateRight();
-	
-	//thruster setter
-	void setIsThrusterOn(bool thrusterMode);
+	void SetIsThrusterOn(bool thrusterMode);
+	float GetShipAngle();
+	void RespawnShip();
 };

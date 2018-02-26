@@ -1,25 +1,14 @@
 #pragma once
 
-class Color {
+struct Color {
 
-private:
+	//members
 	float redValue;
 	float greenValue;
 	float blueValue;
 	float alphaValue;
 
-public:
+	//functions
 	Color();
-	Color(float redValue, float greenValue, float blueValue, float alphaValue);
-
-	void setRed(float red);
-	void setGreen(float green);
-	void setBlue(float blue);
-	void setAlpha(float alpha);
-
-	float getRed();
-	float getGreen();
-	float getBlue();
-	float getAlpha();
-
+	Color(float red, float green, float blue, float alpha);
 };

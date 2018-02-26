@@ -15,6 +15,7 @@
 #include "MathUtilities.hpp"
 #include "Player.hpp"
 #include "Asteroid.hpp"
+#include "Game.hpp"
 
 namespace Engine
 {
@@ -46,6 +47,7 @@ namespace Engine
 		bool Init							( );
 		void Update							( );
 		void Render							( );
+
 	private:
 		/* =============================================================
 		 * PRIVATE FUNCTIONS
@@ -73,10 +75,8 @@ namespace Engine
 		GameState::State					m_state;
 		Engine::TimeManager*				m_timer;
 
-		//player and asteroid declaration
-		Player *player = new Player();
-		Asteroid *asteroid = new Asteroid(asteroid->MEDIUM_SIZE);
-
+		//Game member
+		Game *game;
 	};
 }
 #endif /* GAME_HPP */

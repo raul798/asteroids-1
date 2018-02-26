@@ -2,70 +2,70 @@
 
 //getBlack
 float ColorPalette::getBlackRedValue() {
-	return black.getRed();
+	return black.redValue;
 }
 float ColorPalette::getBlackGreenValue() {
-	return black.getGreen();
+	return black.greenValue;
 }
 float ColorPalette::getBlackBlueValue() {
-	return black.getBlue();
+	return black.blueValue;
 }
 float ColorPalette::getBlackAlphaValue() {
-	return black.getAlpha();
+	return black.alphaValue;
 }
 
 //getDarkSlateGray
 float ColorPalette::getDarkSlateGrayRedValue() {
-	return darkSlateGray.getRed();
+	return darkSlateGray.redValue;
 }
 float ColorPalette::getDarkSlateGrayGreenValue() {
-	return darkSlateGray.getGreen();
+	return darkSlateGray.greenValue;
 }
 float ColorPalette::getDarkSlateGrayBlueValue() {
-	return darkSlateGray.getBlue();
+	return darkSlateGray.blueValue;
 }
 float ColorPalette::getDarkSlateGrayAlphaValue() {
-	return darkSlateGray.getAlpha();
+	return darkSlateGray.alphaValue;
 }
 
 //getMaroon
 float ColorPalette::getMaroonRedValue() {
-	return maroon.getRed();
+	return maroon.redValue;
 }
 float ColorPalette::getMaroonGreenValue() {
-	return maroon.getGreen();
+	return maroon.greenValue;
 }
 float ColorPalette::getMaroonBlueValue() {
-	return maroon.getBlue();
+	return maroon.blueValue;
 }
 float ColorPalette::getMaroonAlphaValue() {
-	return maroon.getAlpha();
+	return maroon.alphaValue;
 }
 
 //getChocolate
 float ColorPalette::getChocolateRedValue() {
-	return chocolate.getRed();
+	return chocolate.redValue;
 }
 float ColorPalette::getChocolateGreenValue() {
-	return chocolate.getGreen();
+	return chocolate.greenValue;
 }
 float ColorPalette::getChocolateBlueValue() {
-	return chocolate.getBlue();
+	return chocolate.blueValue;
 }
 float ColorPalette::getChocolateAlphaValue() {
-	return chocolate.getAlpha();
+	return chocolate.alphaValue;
 }
 
 //getMidnightBlue
 float ColorPalette::getMidnightBlueRedValue() {
-	return midnightBlue.getRed();
+	return midnightBlue.redValue;
 }
 float ColorPalette::getMidnightBlueGreenValue() {
-	return midnightBlue.getGreen();
+	return midnightBlue.greenValue;
 }
 float ColorPalette::getMidnightBlueBlueValue() {
-	return midnightBlue.getBlue();
+	return midnightBlue.blueValue;
 }
 float ColorPalette::getMidnightBlueAlphaValue() {
-	return midnightBlue.getAlpha();
+	return midnightBlue.alphaValue;
 }

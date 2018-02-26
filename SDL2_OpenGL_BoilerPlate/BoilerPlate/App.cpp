@@ -21,10 +21,14 @@ namespace Engine
 	{
 		m_state = GameState::UNINITIALIZED;
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
+
+		game = new Game();
 	}
 
 	App::~App()
 	{
+		game->RemoveFromMemory();
+
 		CleanupSDL();
 	}
 
@@ -42,13 +46,11 @@ namespace Engine
 		while (m_state == GameState::RUNNING)
 		{
 			// Input polling
-			//
 			while (SDL_PollEvent(&event))
 			{
 				OnEvent(&event);
 			}
 
-			//
 			Update();
 			Render();
 		}
@@ -57,7 +59,6 @@ namespace Engine
 	bool App::Init()
 	{
 		// Init the external dependencies
-		//
 		bool success = SDLInit() && GlewInit();
 		if (!success)
 		{
@@ -66,58 +67,29 @@ namespace Engine
 		}
 
 		// Setup the viewport
-		//
 		SetupViewport();
 
 		// Change game state
-		//
 		m_state = GameState::INIT_SUCCESSFUL;
 
 		return true;
 	}
 
 	void App::OnKeyDown(SDL_KeyboardEvent keyBoardEvent)
-	{		
-		switch (keyBoardEvent.keysym.scancode)
-		{
-		case SDL_SCANCODE_W:
-			SDL_Log("Up");
-			player->MoveFroward(m_width, m_height);
-			player->setIsThrusterOn(true);
-			break;
-
-		case SDL_SCANCODE_A:
-			SDL_Log("Left");
-			player->RotateLeft();
-			break;
-
-		case SDL_SCANCODE_D:
-			SDL_Log("Right");
-			player->RotateRight();
-			break;
-
-		case SDL_SCANCODE_S:
-			SDL_Log("Down");
-			break;
-
-		default:			
-			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
-			break;
-		}
+	{
+		game->OnKeyDown(keyBoardEvent);
 	}
 
 	void App::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 	{
+		game->OnKeyUp(keyBoardEvent);
+
 		switch (keyBoardEvent.keysym.scancode)
 		{
 		case SDL_SCANCODE_ESCAPE:
 			OnExit();
 			break;
 
-		case SDL_SCANCODE_W:
-			player->setIsThrusterOn(false);
-			break;
-	
 		default:
 			//DO NOTHING
 			break;
@@ -129,24 +101,22 @@ namespace Engine
 		double startTime = m_timer->GetElapsedTimeInSeconds();
 
 		// Update code goes here
-		//
+		game->Update(m_width, m_height, DESIRED_FRAME_TIME);
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
 
 		while (endTime < nextTimeFrame)
 		{
-			// Spin lock
 
+			// Spin lock
 			endTime = m_timer->GetElapsedTimeInSeconds();
 		}
 
 		//double elapsedTime = endTime - startTime;        
-
 		m_lastFrameTime = m_timer->GetElapsedTimeInSeconds();
 
 		m_nUpdates++;
-		
 	}
 
 	void App::Render()
@@ -156,8 +126,7 @@ namespace Engine
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		player->Render();
-		asteroid->Render();
+		game->Render();
 
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
@@ -165,7 +134,6 @@ namespace Engine
 	bool App::SDLInit()
 	{
 		// Initialize SDL's Video subsystem
-		//
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		{
 			std::cerr << "Failed to init SDL" << std::endl;
@@ -175,9 +143,9 @@ namespace Engine
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-		Uint32 flags =  SDL_WINDOW_OPENGL     | 
-						SDL_WINDOW_SHOWN      | 
-						SDL_WINDOW_RESIZABLE;
+		Uint32 flags = SDL_WINDOW_OPENGL |
+			SDL_WINDOW_SHOWN |
+			SDL_WINDOW_RESIZABLE;
 
 		m_mainWindow = SDL_CreateWindow(
 			m_title.c_str(),
@@ -207,25 +175,20 @@ namespace Engine
 	void App::SetupViewport()
 	{
 		// Defining ortho values
-		//
 		float halfWidth = m_width * 0.5f;
 		float halfHeight = m_height * 0.5f;
 
 		// Set viewport to match window
-		//
 		glViewport(0, 0, m_width, m_height);
 
 		// Set Mode to GL_PROJECTION
-		//
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
 		// Set projection MATRIX to ORTHO
-		//
 		glOrtho(-halfWidth, halfWidth, -halfHeight, halfHeight, -1, 1);
 
 		// Setting Mode to GL_MODELVIEW
-		//
 		glMatrixMode(GL_MODELVIEW);
 	}
 
@@ -244,7 +207,6 @@ namespace Engine
 	void App::CleanupSDL()
 	{
 		// Cleanup
-		//
 		SDL_GL_DeleteContext(m_context);
 		SDL_DestroyWindow(m_mainWindow);
 
@@ -254,7 +216,7 @@ namespace Engine
 	void App::OnResize(int width, int height)
 	{
 		// TODO: Add resize functionality
-		//
+
 		m_width = width;
 		m_height = height;
 
@@ -264,11 +226,11 @@ namespace Engine
 	void App::OnExit()
 	{
 		// Exit main for loop
-		//
 		m_state = GameState::QUIT;
 
 		// Cleanup SDL pointers
-		//
 		CleanupSDL();
 	}
 }
+
+
