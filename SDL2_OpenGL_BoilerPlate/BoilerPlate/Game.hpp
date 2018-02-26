@@ -3,6 +3,7 @@
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
 #include "SDLEvent.hpp"
+#include <ctime>
 
 class Game {
 
@@ -36,7 +37,6 @@ public:
 	void UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime);
 	void RenderBullets();
 	void CollisionOfTheBullet();
-	void LimitBulletDistance(float deltaTime);
 	void CalculateFrameRate();
 	void ShowBulletsCollisionLines();
 	

@@ -19,8 +19,8 @@ void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
 	UpdateAllBullets(screenWidth, screenHeight, deltaTime);
 
-	//TODO: add framrate calculation function
 	//CalculateFrameRate();
+	//TODO: add framrate calculation function
 }
 
 void Game::Render() {
@@ -35,7 +35,6 @@ void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime
 	DetermineDebuggerState();
 	CollisionOfTheShip();
 	
-
 	for (int i = 0; i < asteroids.size(); i++) {
 
 		asteroids[i]->Update(screenWidth, screenHeight, deltaTime);
@@ -368,29 +367,6 @@ void Game::CollisionOfTheBullet(){
 	}
 }
 
-//TODO:fix
-void Game::CalculateFrameRate() {
-
-	clock_t currentTicks, deltaTicks;
-	clock_t fps = 0;
-
-	while (true)// your main loop. could also be the idle() function in glut or whatever
-	{
-		currentTicks = clock();
-
-		Render();
-
-		deltaTicks = clock() - currentTicks; //the time, in ms, that took to render the scene
-
-		if (deltaTicks > 0) {
-
-			fps = CLOCKS_PER_SEC / deltaTicks;
-		}
-			
-		std::cout << fps << std::endl;
-	}
-}
-
 void Game::ShowBulletsCollisionLines() {
 
 	float distanceBetweenEntities;
@@ -439,11 +415,34 @@ void Game::ShowBulletsCollisionLines() {
 					}
 					glEnd();
 				}
-				
+
 			}
 		}
-	
+
 	}
-	
+
+}
+
+//TODO:fix
+void Game::CalculateFrameRate() {
+
+	clock_t currentTicks, deltaTicks;
+	clock_t fps = 0;
+
+	while (true)// your main loop. could also be the idle() function in glut or whatever
+	{
+		currentTicks = clock();
+
+		Render();
+
+		deltaTicks = clock() - currentTicks; //the time, in ms, that took to render the scene
+
+		if (deltaTicks > 0) {
+
+			fps = CLOCKS_PER_SEC / deltaTicks;
+		}
+			
+		std::cout << fps << std::endl;
+	}
 }
 
