@@ -11,7 +11,6 @@ public:
 	std::vector<Asteroid*> asteroids;
 	std::vector<Bullet*> bullets;
 	float numberOfAsteroids;
-	float bulletReset;
 
 	//Constructor and destructor
 	Game();

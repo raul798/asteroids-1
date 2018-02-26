@@ -6,7 +6,6 @@ Game::Game() {
 	numberOfAsteroids = 5.0f;
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
-	bulletReset - 0.0f;
 }
 
 Game::~Game(){
@@ -36,6 +35,7 @@ void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime
 	DetermineDebuggerState();
 	CollisionOfTheShip();
 	
+
 	for (int i = 0; i < asteroids.size(); i++) {
 
 		asteroids[i]->Update(screenWidth, screenHeight, deltaTime);
@@ -62,20 +62,28 @@ void Game::SpawnAsteroids() {
 
 void Game::AddAsteroid() {
 
-	asteroids.push_back(new Asteroid());
-	numberOfAsteroids = asteroids.size();
+	//can only add asteroids in debugging mode
+	if (player->GetDebuggerState() == true) {
+		asteroids.push_back(new Asteroid());
+		numberOfAsteroids = asteroids.size();
+	}
+	
 }
 
 void Game::RemoveAsteroid() {
 
-	if (numberOfAsteroids < 1) {
+	//can only remove asteroids in debugging mode
+	if (player->GetDebuggerState() == true) {
 
-		std::cout << "Can't remove more asteroids" << std::endl;
-	}
-	else {
+		if (numberOfAsteroids < 1) {
 
-		asteroids.pop_back();
-		numberOfAsteroids = asteroids.size();
+			std::cout << "Can't remove more asteroids" << std::endl;
+		}
+		else {
+
+			asteroids.pop_back();
+			numberOfAsteroids = asteroids.size();
+		}
 	}
 }
 
@@ -152,7 +160,7 @@ void Game::ShowShipCollisionLines() {
 					for (int i = 0; i < asteroids.size(); i++) {
 
 						// sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
-						distanceBetweenEntities = CalculateDistanceBetweenEntities( player->GetPosition(), asteroids[i]->GetPosition() );
+						distanceBetweenEntities = CalculateDistanceBetweenEntities(player->GetPosition(), asteroids[i]->GetPosition());
 
 						//Distcance between entities <= detection radius(2 * radius) + radius of the asteroid
 						if (IsInCollisionRange(distanceBetweenEntities, debuggerDetectionRadius + asteroids[i]->GetEntityRadius())) {
@@ -286,11 +294,17 @@ void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
 
 	CollisionOfTheBullet();
-	LimitBulletDistance(deltaTime);
 	
 	for (int i = 0; i < bullets.size(); i++) {
 	
 		bullets[i]->Update(screenWidth, screenHeight, deltaTime);
+
+		//the bullet disapear after 1 second
+		if (bullets[i]->GetBulletLifeSapwn() >= 1.0f) {
+
+			bullets.erase(bullets.begin() );
+			break;
+		}
 	}
 }
 
@@ -354,22 +368,6 @@ void Game::CollisionOfTheBullet(){
 	}
 }
 
-//TODO: do with time
-void Game::LimitBulletDistance(float deltaTime) {
-	
-	for (int i = 0; i < bullets.size(); i++) {
-
-		float distanceTraveled;
-		float maxPossibleDistance = 400.0f;
-		distanceTraveled = CalculateDistanceBetweenEntities(bullets[i]->GetBulletOriginalPosition(), bullets[i]->GetPosition());
-		
-		if (distanceTraveled >= maxPossibleDistance){
-
-			bullets.erase(bullets.begin() + i);
-			break;
-		}
-	}
-}
 //TODO:fix
 void Game::CalculateFrameRate() {
 
@@ -438,7 +436,6 @@ void Game::ShowBulletsCollisionLines() {
 							glVertex2f(bullets[j]->GetPosition().x, bullets[j]->GetPosition().y);
 							glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
 						}
-
 					}
 					glEnd();
 				}

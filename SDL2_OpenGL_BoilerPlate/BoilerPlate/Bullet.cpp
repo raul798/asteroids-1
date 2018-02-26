@@ -7,6 +7,7 @@ Bullet::Bullet(Player playerShip) {
 	CalculateBulletPosition(playerShip);
 	radius = CalculateRadius();
 	bulletOriginalPosition = new Vector2(position->x, position->y);
+	bulletLifeSapwn = 0.0f;
 }
 
 void Bullet::Render() {
@@ -22,12 +23,14 @@ void Bullet::Render() {
 
 void Bullet::Update(int screenWidth, int screenHeight, float deltaTime) {
 
+	bulletLifeSapwn += deltaTime;
+	
 	//Entity::Update(screenWidth, screenHeight, deltaTime);
 	position->x += entityVelocity->x * deltaTime;
 	position->y += entityVelocity->y * deltaTime;
 
 	//TODO:descommnet the warping after fixing the bullet travel time
-	//Warping(screenWidth, screenHeight);
+	Warping(screenWidth, screenHeight);
 
 	BulletMovement();
 }
@@ -83,4 +86,9 @@ void Bullet::DrawEntity() {
 Vector2 Bullet::GetBulletOriginalPosition() {
 
 	return *bulletOriginalPosition;
+}
+
+float Bullet::GetBulletLifeSapwn(){
+
+	return bulletLifeSapwn;
 }
