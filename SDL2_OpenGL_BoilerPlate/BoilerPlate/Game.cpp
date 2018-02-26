@@ -6,6 +6,7 @@ Game::Game() {
 	numberOfAsteroids = 5.0f;
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
+	bulletReset - 0.0f;
 }
 
 Game::~Game(){
@@ -146,13 +147,6 @@ void Game::ShowShipCollisionLines() {
 	float distanceBetweenEntities;
 	float debuggerDetectionRadius = player->GetEntityRadius() * 2;
 	
-	glLoadIdentity();
-
-	glBegin(GL_LINE_LOOP);
-
-	//white color
-	glColor3f(1.0f, 1.0, 1.0f);
-
 			if (player->GetDebuggerState() == true) {
 
 					for (int i = 0; i < asteroids.size(); i++) {
@@ -162,6 +156,13 @@ void Game::ShowShipCollisionLines() {
 
 						//Distcance between entities <= detection radius(2 * radius) + radius of the asteroid
 						if (IsInCollisionRange(distanceBetweenEntities, debuggerDetectionRadius + asteroids[i]->GetEntityRadius())) {
+
+							glLoadIdentity();
+
+							glBegin(GL_LINE_LOOP);
+
+							//white color
+							glColor3f(1.0f, 1.0, 1.0f);
 
 							//validate if the player is rendering(dead or alive) so it doesnt or does show the lines of the debugger
 							if (player->GetIsRendering() == true) {
@@ -183,12 +184,12 @@ void Game::ShowShipCollisionLines() {
 									glVertex2f(player->GetPosition().x, player->GetPosition().y);
 									glVertex2f(asteroids[i]->GetPosition().x, asteroids[i]->GetPosition().y);
 								}
-
 							}
+							glEnd();
 						}
 					}
 			}
-		glEnd();
+		
 }
 
 void Game::CollisionOfTheShip() {
@@ -285,7 +286,7 @@ void Game::OnKeyUp(SDL_KeyboardEvent keyBoardEvent)
 void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
 
 	CollisionOfTheBullet();
-	LimitBulletDistance();
+	LimitBulletDistance(deltaTime);
 	
 	for (int i = 0; i < bullets.size(); i++) {
 	
@@ -354,8 +355,8 @@ void Game::CollisionOfTheBullet(){
 }
 
 //TODO: do with time
-void Game::LimitBulletDistance() {
-
+void Game::LimitBulletDistance(float deltaTime) {
+	
 	for (int i = 0; i < bullets.size(); i++) {
 
 		float distanceTraveled;
@@ -369,7 +370,7 @@ void Game::LimitBulletDistance() {
 		}
 	}
 }
-
+//TODO:fix
 void Game::CalculateFrameRate() {
 
 	clock_t currentTicks, deltaTicks;
@@ -397,13 +398,6 @@ void Game::ShowBulletsCollisionLines() {
 	float distanceBetweenEntities;
 	float debuggerDetectionRadius;
 
-	glLoadIdentity();
-
-	glBegin(GL_LINE_LOOP);
-
-	//white color
-	glColor3f(1.0f, 1.0, 1.0f);
-
 	if (player->GetDebuggerState() == true) {
 
 		for (int j = 0; j < bullets.size(); j++) {
@@ -417,6 +411,12 @@ void Game::ShowBulletsCollisionLines() {
 
 				//Distcance between entities <= detection radius(2 * radius) + radius of the asteroid
 				if (IsInCollisionRange(distanceBetweenEntities, debuggerDetectionRadius + asteroids[i]->GetEntityRadius())) {
+
+					glLoadIdentity();
+					glBegin(GL_LINE_LOOP);
+
+					//white color
+					glColor3f(1.0f, 1.0, 1.0f);
 
 					//validate if the player is rendering(dead or alive) so it doesnt or does show the lines of the debugger
 					if (player->GetIsRendering() == true) {
@@ -440,11 +440,13 @@ void Game::ShowBulletsCollisionLines() {
 						}
 
 					}
+					glEnd();
 				}
+				
 			}
 		}
 	
 	}
-	glEnd();
+	
 }
 

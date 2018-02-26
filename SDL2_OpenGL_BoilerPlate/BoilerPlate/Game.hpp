@@ -11,6 +11,7 @@ public:
 	std::vector<Asteroid*> asteroids;
 	std::vector<Bullet*> bullets;
 	float numberOfAsteroids;
+	float bulletReset;
 
 	//Constructor and destructor
 	Game();
@@ -36,9 +37,10 @@ public:
 	void UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime);
 	void RenderBullets();
 	void CollisionOfTheBullet();
-	void LimitBulletDistance();
+	void LimitBulletDistance(float deltaTime);
 	void CalculateFrameRate();
 	void ShowBulletsCollisionLines();
+	
 
 	//Input
 	void OnKeyDown(SDL_KeyboardEvent keyBoardEvent);
