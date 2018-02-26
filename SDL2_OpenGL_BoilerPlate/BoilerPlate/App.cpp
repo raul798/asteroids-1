@@ -8,9 +8,6 @@
 
 namespace Engine
 {
-	const float DESIRED_FRAME_RATE = 60.0f;
-	const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
-
 	App::App(const std::string& title, const int width, const int height)
 		: m_title(title)
 		, m_width(width)
@@ -104,6 +101,11 @@ namespace Engine
 			game->inputManager.SetT(true);
 			break;
 
+		case SDL_SCANCODE_F:
+			SDL_Log("frame Rate");
+			game->inputManager.SetF(true);
+			break;
+
 		case SDL_SCANCODE_G:
 			SDL_Log("Debugger Mode");
 			game->inputManager.SetG(true);
@@ -146,6 +148,10 @@ namespace Engine
 			game->inputManager.SetT(false);
 			break;
 
+		case SDL_SCANCODE_F:
+			game->inputManager.SetF(false);
+			break;
+
 		case SDL_SCANCODE_G:
 			game->inputManager.SetG(false);
 			break;
@@ -167,16 +173,19 @@ namespace Engine
 	void App::Update()
 	{
 		double startTime = m_timer->GetElapsedTimeInSeconds();
+		double calculateEndTime = m_timer->GetElapsedTimeInSeconds();
 
-		// Update code goes here
-		game->Update(m_width, m_height, DESIRED_FRAME_TIME);
+		//update Game (asteroids, player and bullts)
+		game->Update(m_width, m_height, game->CalculateFrameRate(calculateEndTime, startTime));
 
 		double endTime = m_timer->GetElapsedTimeInSeconds();
 		double nextTimeFrame = startTime + DESIRED_FRAME_TIME;
+	
+		//update game frame rate 
+		game->UpdateFrameRate(endTime, startTime);
 
 		while (endTime < nextTimeFrame)
 		{
-
 			// Spin lock
 			endTime = m_timer->GetElapsedTimeInSeconds();
 		}

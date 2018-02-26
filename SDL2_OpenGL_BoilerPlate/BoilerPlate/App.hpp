@@ -12,9 +12,6 @@
 
 //mylibraries
 #include "ColorPalette.hpp"
-#include "MathUtilities.hpp"
-#include "Player.hpp"
-#include "Asteroid.hpp"
 #include "Game.hpp"
 
 namespace Engine

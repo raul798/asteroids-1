@@ -7,6 +7,9 @@ Game::Game() {
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
 	ResetInputCounter();
+	storageDeltaTime = std::vector<Vector2>(20);
+	FillStorageDeltaTime();
+	isFrameRateOn = false;
 }
 
 Game::~Game(){
@@ -26,9 +29,6 @@ void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 	player->Update(screenWidth, screenHeight, deltaTime);
 	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
 	UpdateAllBullets(screenWidth, screenHeight, deltaTime);
-
-	//CalculateFrameRate();
-	//TODO: add framrate calculation function
 }
 
 void Game::Render() {
@@ -36,6 +36,7 @@ void Game::Render() {
 	player->Render();
 	RenderAsteroids();
 	RenderBullets();
+	GraphFrameRate();
 }
 
 void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime) {
@@ -363,29 +364,6 @@ void Game::ShowBulletsCollisionLines() {
 
 }
 
-//TODO:fix
-void Game::CalculateFrameRate() {
-
-	clock_t currentTicks, deltaTicks;
-	clock_t fps = 0;
-
-	while (true)// your main loop. could also be the idle() function in glut or whatever
-	{
-		currentTicks = clock();
-
-		Render();
-
-		deltaTicks = clock() - currentTicks; //the time, in ms, that took to render the scene
-
-		if (deltaTicks > 0) {
-
-			fps = CLOCKS_PER_SEC / deltaTicks;
-		}
-			
-		std::cout << fps << std::endl;
-	}
-}
-
 void Game::InputController() {
 
 	if (inputManager.GetW()) {
@@ -429,6 +407,13 @@ void Game::InputController() {
 		ResetInputCounter();
 	}
 
+	if (inputManager.GetF() && inputCounter == 0) {
+
+		ToggleFramerate();
+
+		ResetInputCounter();
+	}
+
 	if (inputManager.GetY()) {
 
 		RespawnPlayer();
@@ -452,3 +437,86 @@ void Game::ResetInputCounter() {
 	inputCounter = 10;
 }
 
+void Game::FillStorageDeltaTime(){
+
+	storageDeltaTimeCounter = 0;
+
+	for (int i = 0; i < storageDeltaTime.size(); i++) {
+
+		storageDeltaTime[i].x = i;
+		storageDeltaTime[i].y = DESIRED_FRAME_TIME;
+	}
+}
+
+float Game::CalculateFrameRate(double endTime, double startTime) {
+
+	float deltaTime = DESIRED_FRAME_TIME - (endTime - startTime);
+
+	return deltaTime;
+}
+
+void Game::UpdateFrameRate(double endTime, double startTime) {
+
+	float deltaTime = CalculateFrameRate(endTime, startTime);
+
+	storageDeltaTime[storageDeltaTimeCounter] = Vector2((float)storageDeltaTimeCounter, deltaTime);
+
+	storageDeltaTimeCounter++;
+
+	if (storageDeltaTimeCounter >= FRAME_STORAGE_LIMIT) {
+
+		storageDeltaTimeCounter = 0;
+	}
+}
+
+void Game::GraphFrameRate() {
+
+	if (isFrameRateOn == true) {
+
+		DrawGraphAxes();
+
+		DrawFrameRateGraph();
+	}
+}
+
+void Game::DrawGraphAxes() {
+
+	//green color for the graph
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glLoadIdentity();
+	glTranslatef(100.0f, -200.0f, 0.0f);
+
+	//graphic axes
+	glBegin(GL_LINE_STRIP);
+	glVertex2f(0.0f, 100.0f);
+	glVertex2f(0.0f, 0.0f);
+	glVertex2f(200.0f, 0.0f);
+	glEnd();
+}
+
+void Game::DrawFrameRateGraph() {
+
+	//graph frame rate
+	glBegin(GL_LINE_STRIP);
+
+	//green color for the graph
+	glColor3f(1.0f, 1.0f, 0.0f);
+
+	for (int i = 0; i < FRAME_STORAGE_LIMIT; i++) {
+
+		glVertex2f(FRAME_RATE_SCALE_X * storageDeltaTime[i].x, FRAME_RATE_SCALE_Y * (DESIRED_FRAME_TIME - storageDeltaTime[i].y));
+	}
+	glEnd();
+}
+
+void Game::ToggleFramerate() {
+
+	if (isFrameRateOn == false) {
+
+		isFrameRateOn = true;
+	}
+	else {
+
+		isFrameRateOn = false;
+	}
+}
