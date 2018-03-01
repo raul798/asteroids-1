@@ -3,13 +3,18 @@
 Game::Game() {
 
 	player = new Player();
-	numberOfAsteroids = 5.0f;
+	numberOfAsteroids = initialNumberOfAsteroids;
+	stageCounter = 0.0f;
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
 	ResetInputCounter();
 	storageDeltaTime = std::vector<Vector2>(20);
 	FillStorageDeltaTime();
 	isFrameRateOn = false;
+	playerRemainingLives = 3;
+	invulnerabilityTimeCounter = 0.0f;
+	playerScore = 0;
+	livesPerScoreCounter = 1;
 }
 
 Game::~Game(){
@@ -19,13 +24,9 @@ Game::~Game(){
 
 void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 
-	InputController();
-
-	if (inputCounter > 0) {
-
-		inputCounter--;
-	}
-
+	UpdateScreenDimensions(screenWidth, screenHeight);
+	UpdateInputController();
+	CheckPlayerInvulnerability();
 	player->Update(screenWidth, screenHeight, deltaTime);
 	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
 	UpdateAllBullets(screenWidth, screenHeight, deltaTime);
@@ -33,6 +34,7 @@ void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 
 void Game::Render() {
 
+	DrawPlayerRemainingLives();
 	player->Render();
 	RenderAsteroids();
 	RenderBullets();
@@ -43,6 +45,7 @@ void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime
 
 	DetermineDebuggerState();
 	CollisionOfTheShip();
+	SpawnAsteroidsPerStage();
 	
 	for (int i = 0; i < asteroids.size(); i++) {
 
@@ -212,7 +215,7 @@ void Game::CollisionOfTheShip() {
 
 	float distanceBetweenEntities;
 
-	if (player->GetDebuggerState() == false) {
+	if (player->GetDebuggerState() == false && player->GetIsInvulnerabilityOn() == false) {
 
 		for (int i = 0; i < asteroids.size(); i++) {
 
@@ -221,6 +224,10 @@ void Game::CollisionOfTheShip() {
 			if (IsInCollisionRange(distanceBetweenEntities, player->GetEntityRadius() + asteroids[i]->GetEntityRadius())) {
 
 				player->SetIsRendering(false);
+				player->SetIsInvulnerabilityOn(true);
+				playerRemainingLives--;
+				RespawnPlayer();
+
 			}
 		}
 	}
@@ -228,7 +235,16 @@ void Game::CollisionOfTheShip() {
 
 void Game::RespawnPlayer() {
 
-	player->RespawnShip();
+	if (playerRemainingLives > 0) {
+
+		player->RespawnShip();
+		std::cout << playerRemainingLives << std::endl;
+	}
+	else {
+
+		std::cout << "muelto" << std::endl;
+	}
+	
 }
 
 void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
@@ -285,22 +301,34 @@ void Game::CollisionOfTheBullet(){
 	
 				if (IsInCollisionRange(distanceBetweenEntities, bullets[i]->GetEntityRadius() + asteroids[j]->GetEntityRadius())) {
 
-					//divide asteroids depending on size
+					//divide asteroids depending on size and adding to the player score
 					if(asteroids[j]->GetAsteroidSize() == 3) {
 
 						asteroids.push_back(new Asteroid(2, asteroids[j]->GetPosition()));
 						asteroids.push_back(new Asteroid(2, asteroids[j]->GetPosition()));
+
+						playerScore += 20;
 					}
 					if(asteroids[j]->GetAsteroidSize() == 2) {
 
 						asteroids.push_back(new Asteroid(1, asteroids[j]->GetPosition()));
 						asteroids.push_back(new Asteroid(1, asteroids[j]->GetPosition()));
+
+						playerScore += 50;
+					}
+					if (asteroids[j]->GetAsteroidSize() == 1) {
+
+						playerScore += 100;
 					}
 					
 					//remove the asteroid and the bullet on impact
 					asteroids.erase(asteroids.begin() + j);
 					bullets.erase(bullets.begin() + i);
 					numberOfAsteroids = asteroids.size();
+
+					//add lives depending on score
+					AdditionalLivesPerScore();
+					std::cout << playerScore << std::endl;
 					break;
 				}
 			}
@@ -356,12 +384,9 @@ void Game::ShowBulletsCollisionLines() {
 					}
 					glEnd();
 				}
-
 			}
 		}
-
 	}
-
 }
 
 void Game::InputController() {
@@ -416,14 +441,17 @@ void Game::InputController() {
 
 	if (inputManager.GetY()) {
 
-		RespawnPlayer();
+		ResetGame();
 	}
 
 	if (inputManager.GetSpace() && inputCounter == 0) {
 
-		shootBullet();
+		if (player->GetCanPlayerShoot() == true) {
 
-		ResetInputCounter();
+			shootBullet();
+
+			ResetInputCounter();
+		}
 	}
 }
 
@@ -481,10 +509,14 @@ void Game::GraphFrameRate() {
 
 void Game::DrawGraphAxes() {
 
+	//Graph position
+	float xAxisGraphPosition = (gameScreenWidth / 2) - 250.0f;
+	float yAxisGraphPosition = 20.0f - (gameScreenHeight / 2);
+
 	//green color for the graph
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glLoadIdentity();
-	glTranslatef(100.0f, -200.0f, 0.0f);
+	glTranslatef(xAxisGraphPosition, yAxisGraphPosition, 0.0f);
 
 	//graphic axes
 	glBegin(GL_LINE_STRIP);
@@ -519,4 +551,97 @@ void Game::ToggleFramerate() {
 
 		isFrameRateOn = false;
 	}
+}
+
+void Game::DrawPlayerRemainingLives() {
+
+	for (int i = 1; i <= playerRemainingLives; i++) {
+
+		//Player Lives Position
+		float xAxisLivesPosition = -(gameScreenWidth / 2) - 15.0f + i * distanceBetweenLives;
+		float yAxisLivesPosition = (gameScreenHeight / 2) - 30.0f;
+
+		//render player lives
+		glLoadIdentity();
+
+		//It translate according to the screenWidth and Height
+		glTranslatef(xAxisLivesPosition, yAxisLivesPosition, 0.0f);
+		player->DrawPlayerLives();
+	}
+}
+
+void Game::CheckPlayerInvulnerability() {
+
+	if (player->GetIsInvulnerabilityOn() == true) {
+
+		player->SetCanPlayerShoot(false);
+		invulnerabilityTimeCounter++;
+
+		if (invulnerabilityTimeCounter >= 200.0f) {
+
+			player->SetCanPlayerShoot(true);
+			player->SetIsInvulnerabilityOn(false);
+			invulnerabilityTimeCounter = 0.0f;
+		}
+	}
+}
+
+void Game::UpdateInputController() {
+
+	InputController();
+
+	if (inputCounter > 0) {
+
+		inputCounter--;
+	}
+}
+
+void Game::UpdateScreenDimensions(int screenWidth, int screenHeight) {
+
+	gameScreenWidth = screenWidth;
+	gameScreenHeight = screenHeight;
+}
+
+void Game::SpawnAsteroidsPerStage() {
+
+	if (asteroids.size() == 0) {
+
+		//keep track of the number of asteroids
+		stageCounter++;
+		numberOfAsteroids = initialNumberOfAsteroids + stageCounter;
+
+		for (int i = 0; i < numberOfAsteroids; i++) {
+
+			asteroids.push_back(new Asteroid());
+		}
+	}
+}
+
+void Game::ResetGame() {
+
+	player->SetDebuggerState(false);
+	asteroids.clear();
+	stageCounter = 0;
+	numberOfAsteroids = initialNumberOfAsteroids;
+	playerRemainingLives = 3;
+	player->RespawnShip();
+	playerScore = 0;
+	livesPerScoreCounter = 1;
+	player->SetIsInvulnerabilityOn(true);
+	player->SetCanPlayerShoot(true);
+
+	for (int i = 0; i < numberOfAsteroids; i++) {
+
+		asteroids.push_back(new Asteroid());
+	}
+}
+
+void Game::AdditionalLivesPerScore(){
+
+	if (playerScore / livesPerScoreCounter >= scoreToGetLife) {
+
+		livesPerScoreCounter++;
+		playerRemainingLives++;
+	}
+	
 }

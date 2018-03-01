@@ -5,6 +5,8 @@ class Player : public Entity {
 
 private:
 	bool isThrusterOn;
+	bool isInvulnerabilityOn;
+	bool canPlayerShoot;
 	float shipOrientation;
 	std::vector<Vector2> thrusterVertexContainer;
 	const float rotationValue = 8.0f;
@@ -28,4 +30,10 @@ public:
 	void SetIsThrusterOn(bool thrusterMode);
 	float GetShipAngle();
 	void RespawnShip();
+	bool GetIsInvulnerabilityOn();
+	void SetIsInvulnerabilityOn(bool desiredValue);
+	void DrawPlayerLives();
+	bool GetCanPlayerShoot();
+	void SetCanPlayerShoot(bool desiredValue);
+	void DrawPlayerInvulnerability();
 };

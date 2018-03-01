@@ -14,18 +14,26 @@ const float FRAME_RATE_SCALE_X = 10.0f;
 class Game {
 
 private:
-	Player * player;
+	Player *player;
 	std::vector<Asteroid*> asteroids;
 	std::vector<Bullet*> bullets;
 	std::vector<Vector2> storageDeltaTime;
+	float gameScreenWidth;
+	float gameScreenHeight;
 	int storageDeltaTimeCounter;
 	float numberOfAsteroids;
+	const float initialNumberOfAsteroids = 5.0f;
+	int stageCounter;
+	int playerRemainingLives;
 	bool isFrameRateOn;
+	const float distanceBetweenLives = 30.0f;
+	float invulnerabilityTimeCounter;
+	int playerScore;;
+	int livesPerScoreCounter;
+	const int scoreToGetLife = 3000;
 	//Limit the amount of inputs
 	int inputCounter;
 	
-	
-
 public:
 	//Constructor and destructor
 	Game();
@@ -59,7 +67,14 @@ public:
 	void DrawFrameRateGraph();
 	void ToggleFramerate();
 	float CalculateFrameRate(double endTime, double startTime);
-	
+	void DrawPlayerRemainingLives();
+	void CheckPlayerInvulnerability();
+	void UpdateInputController();
+	void UpdateScreenDimensions(int screenWidth, int screenHeight);
+	void SpawnAsteroidsPerStage();
+	void ResetGame();
+	void AdditionalLivesPerScore();
+
 	//Input
 	InputManager inputManager;
 	InputManager GetInputManager();

@@ -2,9 +2,14 @@
 #include <iostream>
 #include <algorithm>
 
-// OpenGL includes
+// OpenGL/SDL includes
+//#include <irrklang/irrKlang.h>
 #include <GL/glew.h>
-#include <SDL2/SDL_opengl.h>
+#include <SDL_opengl.h>
+#include <GL/glew.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_ttf.h>
 
 namespace Engine
 {
@@ -55,6 +60,21 @@ namespace Engine
 
 	bool App::Init()
 	{
+		SDL_version compile_version;
+		const SDL_version *link_version = TTF_Linked_Version();
+		SDL_TTF_VERSION(&compile_version);
+
+		SDL_Log("compiled with SDL_ttf version: %d.%d.%d\n",
+			compile_version.major,
+			compile_version.minor,
+			compile_version.patch);
+
+		SDL_Log("running with SDL_ttf version: %d.%d.%d\n",
+			link_version->major,
+			link_version->minor,
+			link_version->patch);
+
+
 		// Init the external dependencies
 		bool success = SDLInit() && GlewInit();
 		if (!success)
@@ -112,7 +132,7 @@ namespace Engine
 			break;
 
 		case SDL_SCANCODE_Y:
-			SDL_Log("Respawn Player");
+			SDL_Log("Reset Player");
 			game->inputManager.SetY(true);
 			break;
 
