@@ -2,17 +2,14 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-// C++ STL
 #include <string>
 #include <list>
-
-// Asteroids
-#include "SDLEvent.hpp"
 #include "TimeManager.hpp"
 
 //mylibraries
 #include "ColorPalette.hpp"
 #include "Game.hpp"
+#include "TextRender.hpp"
 
 namespace Engine
 {
@@ -74,6 +71,7 @@ namespace Engine
 
 		//Game member
 		Game *game;
+		TextRender *font;
 	};
 }
 #endif /* GAME_HPP */

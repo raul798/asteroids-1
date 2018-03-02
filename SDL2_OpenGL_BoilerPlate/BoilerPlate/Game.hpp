@@ -3,7 +3,6 @@
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
 #include "InputManager.hpp"
-#include "SDLEvent.hpp"
 
 const float DESIRED_FRAME_RATE = 60.0f;
 const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
@@ -26,7 +25,7 @@ private:
 	int stageCounter;
 	int playerRemainingLives;
 	bool isFrameRateOn;
-	const float distanceBetweenLives = 30.0f;
+	const float distanceBetweenLives = -30.0f;
 	float invulnerabilityTimeCounter;
 	int playerScore;;
 	int livesPerScoreCounter;

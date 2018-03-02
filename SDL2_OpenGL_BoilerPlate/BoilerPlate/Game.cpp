@@ -558,7 +558,7 @@ void Game::DrawPlayerRemainingLives() {
 	for (int i = 1; i <= playerRemainingLives; i++) {
 
 		//Player Lives Position
-		float xAxisLivesPosition = -(gameScreenWidth / 2) - 15.0f + i * distanceBetweenLives;
+		float xAxisLivesPosition = (gameScreenWidth / 2) + 10.0f + i * distanceBetweenLives;
 		float yAxisLivesPosition = (gameScreenHeight / 2) - 30.0f;
 
 		//render player lives
@@ -638,6 +638,7 @@ void Game::ResetGame() {
 
 void Game::AdditionalLivesPerScore(){
 
+	std::cout << playerRemainingLives << std::endl;
 	if (playerScore / livesPerScoreCounter >= scoreToGetLife) {
 
 		livesPerScoreCounter++;
