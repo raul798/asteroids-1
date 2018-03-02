@@ -8,10 +8,14 @@ TextManager::TextManager(int gameScreenWidth, int gameScreenHeight, int fontSize
 
 bool TextManager::InitFont() {
 
+	bool result = true;
+
 	if (TTF_Init() == -1) {
 		SDL_Log("TTF_Init: %s\n", TTF_GetError());
-		return false;
+		result = false;
 	}
+
+	return result;
 }
 
 unsigned int TextManager::power_two_floor(unsigned int val) {
@@ -60,10 +64,10 @@ void TextManager::RenderText(std::string message, SDL_Color color, float x, floa
 
 	//Draw the OpenGL texture as a Quad
 	glBegin(GL_QUADS); {
-		glTexCoord2d(0, 1); glVertex3f(0, 0, 0);
-		glTexCoord2d(1, 1); glVertex3f(0 + surface->w, 0, 0);
-		glTexCoord2d(1, 0); glVertex3f(0 + surface->w, 0 + surface->h, 0);
-		glTexCoord2d(0, 0); glVertex3f(0, 0 + surface->h, 0);
+		glTexCoord2d(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
+		glTexCoord2d(1.0f, 1.0f); glVertex3f(0.0f + surface->w, 0.0f, 0.0f);
+		glTexCoord2d(1.0f, 0.0f); glVertex3f(0.0f + surface->w, 0.0f + surface->h, 0.0f);
+		glTexCoord2d(0.0f, 0.0f); glVertex3f(0.0f, 0.0f + surface->h, 0.0f);
 	} glEnd();
 	glDisable(GL_TEXTURE_2D);
 

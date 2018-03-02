@@ -22,11 +22,11 @@ private:
 	std::vector<Asteroid*> asteroids;
 	std::vector<Bullet*> bullets;
 	std::vector<Vector2> storageDeltaTime;
-	float gameScreenWidth;
-	float gameScreenHeight;
+	int gameScreenWidth;
+	int gameScreenHeight;
 	int storageDeltaTimeCounter;
-	float numberOfAsteroids;
-	const float initialNumberOfAsteroids = 5.0f;
+	int numberOfAsteroids;
+	const int initialNumberOfAsteroids = 5;
 	int stageCounter;
 	int playerRemainingLives;
 	bool isFrameRateOn;
@@ -83,7 +83,7 @@ public:
 	void RenderGameOverScreen();
 	void RenderScore();
 	void SetFontColor(int r, int g, int b, int a);
-	const float fontSize = 50.0f;
+	const int fontSize = 50;
 
 	//Input
 	InputManager inputManager;

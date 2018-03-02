@@ -3,7 +3,7 @@
 Asteroid::Asteroid() {
 	
 	//big size default
-	position = new Vector2(rand(), rand());
+	position = new Vector2((float)rand(), (float)rand());
 	asteroidSize = 3;
 	asteroidRotationAngle = 0.0f;
 	PushDrawEntityVertex();
@@ -13,7 +13,7 @@ Asteroid::Asteroid() {
 
 Asteroid::Asteroid(int asteroidSizeRatio) {
 
-	position = new Vector2(rand(), rand());
+	position = new Vector2((float)rand(), (float)rand());
 	asteroidSize = asteroidSizeRatio;
 	asteroidRotationAngle = 0.0f;
 	PushDrawEntityVertex();
@@ -93,8 +93,8 @@ void Asteroid::AsteroidMovement() {
 
 	MathUtilities mathUtilities;
 
-	entityVelocity->x = (asteroidMovementSpeed / mass) * -sinf(mathUtilities.degreesToRadians(asteroidOrientation)) + asteroidSize;
-	entityVelocity->y = (asteroidMovementSpeed / mass) * cosf(mathUtilities.degreesToRadians(asteroidOrientation)) + asteroidSize;
+	entityVelocity->x = (asteroidMovementSpeed / mass) * -sinf(mathUtilities.degreesToRadians((float)asteroidOrientation)) + asteroidSize;
+	entityVelocity->y = (asteroidMovementSpeed / mass) * cosf(mathUtilities.degreesToRadians((float)asteroidOrientation)) + asteroidSize;
 }
 
 

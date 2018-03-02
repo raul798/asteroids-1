@@ -16,24 +16,20 @@ int MathUtilities::floatToInt(float number) {
 int MathUtilities::floatToEvenInt(float number) {
 	int result, firstDecimal, intNumber;
 
+	firstDecimal = (int)(number * 10) % 10;
+
 	if (number >= 0) {
 		intNumber = (int)(number + 0.5);
 	}
 	else {
 		intNumber = (int)(number - 0.5);
 	}
-
-	if (result % 2 == 0) {
-		result = intNumber;
+	
+	if (firstDecimal >= 5) {
+		result = intNumber + 1;
 	}
-	else {
-		firstDecimal = (int)(number * 10) % 10;
-		if (firstDecimal >= 5) {
-			result = intNumber + 1;
-		}
-		else if (firstDecimal < 5) {
-			result = intNumber;
-		}
+	else if (firstDecimal < 5) {
+		result = intNumber;
 	}
 	return result;
 }

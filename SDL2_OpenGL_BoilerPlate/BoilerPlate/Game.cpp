@@ -4,7 +4,7 @@ Game::Game() {
 
 	player = new Player();
 	numberOfAsteroids = initialNumberOfAsteroids;
-	stageCounter = 0.0f;
+	stageCounter = 0;
 	asteroids = std::vector<Asteroid*>(numberOfAsteroids);
 	SpawnAsteroids();
 	ResetInputCounter();
@@ -117,7 +117,7 @@ void Game::AddAsteroid() {
 	//can only add asteroids in debugging mode
 	if (player->GetDebuggerState() == true) {
 		asteroids.push_back(new Asteroid());
-		numberOfAsteroids = asteroids.size();
+		numberOfAsteroids = (int)asteroids.size();
 	}
 	
 }
@@ -134,7 +134,7 @@ void Game::RemoveAsteroid() {
 		else {
 
 			asteroids.pop_back();
-			numberOfAsteroids = asteroids.size();
+			numberOfAsteroids = (int)asteroids.size();
 		}
 	}
 }
@@ -381,7 +381,7 @@ void Game::CollisionOfTheBullet(){
 					//remove the asteroid and the bullet on impact
 					asteroids.erase(asteroids.begin() + j);
 					bullets.erase(bullets.begin() + i);
-					numberOfAsteroids = asteroids.size();
+					numberOfAsteroids = (int)asteroids.size();
 
 					//add lives depending on score
 					AdditionalLivesPerScore();
@@ -527,19 +527,19 @@ void Game::ResetInputCounter() {
 }
 
 void Game::FillStorageDeltaTime(){
-
+	
 	storageDeltaTimeCounter = 0;
 
 	for (int i = 0; i < storageDeltaTime.size(); i++) {
 
-		storageDeltaTime[i].x = i;
+		storageDeltaTime[i].x = (float)i;
 		storageDeltaTime[i].y = DESIRED_FRAME_TIME;
 	}
 }
 
 float Game::CalculateFrameRate(double endTime, double startTime) {
 
-	float deltaTime = DESIRED_FRAME_TIME - (endTime - startTime);
+	float deltaTime = DESIRED_FRAME_TIME - ((float)endTime - (float)startTime);
 
 	return deltaTime;
 }

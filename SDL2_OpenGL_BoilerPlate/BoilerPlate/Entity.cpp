@@ -56,21 +56,21 @@ void Entity::Warping(int screenWidth, int screenHeight) {
 	//Evaluating x
 	if (position->x < -width) {
 
-		position->x = width;
+		position->x = (float)width;
 	}
 	else if (position->x > width) {
 
-		position->x = -width;
+		position->x = (float)-width;
 	}
 
 	//Evaluationg y
 	if (position->y < -height) {
 
-		position->y = height;
+		position->y = (float)height;
 	}
 	else if (position->y > height) {
 
-		position->y = -height;
+		position->y = (float)-height;
 	}
 }
 
