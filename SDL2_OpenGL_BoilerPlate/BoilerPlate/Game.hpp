@@ -3,6 +3,11 @@
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
 #include "InputManager.hpp"
+#include "TextManager.hpp"
+
+#include <irrKlang.h>
+#include <ik_irrKlangTypes.h>
+
 
 const float DESIRED_FRAME_RATE = 60.0f;
 const float DESIRED_FRAME_TIME = 1.0f / DESIRED_FRAME_RATE;
@@ -30,8 +35,10 @@ private:
 	int playerScore;;
 	int livesPerScoreCounter;
 	const int scoreToGetLife = 3000;
-	//Limit the amount of inputs
 	int inputCounter;
+	TextManager *textManager;
+	SDL_Color fontColor;
+	irrklang::ISoundEngine *soundManager;
 	
 public:
 	//Constructor and destructor
@@ -73,6 +80,9 @@ public:
 	void SpawnAsteroidsPerStage();
 	void ResetGame();
 	void AdditionalLivesPerScore();
+	void RenderGameOverScreen();
+	void RenderScore();
+	void CreateGameColor();
 
 	//Input
 	InputManager inputManager;

@@ -9,7 +9,7 @@
 //mylibraries
 #include "ColorPalette.hpp"
 #include "Game.hpp"
-#include "TextManager.hpp"
+
 
 namespace Engine
 {
@@ -71,7 +71,6 @@ namespace Engine
 
 		//Game member
 		Game *game;
-		TextManager *font;
 	};
 }
 #endif /* GAME_HPP */

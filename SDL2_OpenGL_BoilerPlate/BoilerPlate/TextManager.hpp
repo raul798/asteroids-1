@@ -5,6 +5,7 @@
 
 class TextManager {
 
+private:
 	TTF_Font *font;
 
 public:

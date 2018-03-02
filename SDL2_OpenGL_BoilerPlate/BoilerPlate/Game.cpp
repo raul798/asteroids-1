@@ -15,6 +15,10 @@ Game::Game() {
 	invulnerabilityTimeCounter = 0.0f;
 	playerScore = 0;
 	livesPerScoreCounter = 1;
+	textManager->InitFont();
+	textManager = new TextManager(gameScreenWidth, gameScreenHeight);
+	soundManager = irrklang::createIrrKlangDevice();
+	soundManager->setSoundVolume(1.0f);
 }
 
 Game::~Game(){
@@ -30,15 +34,35 @@ void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 	player->Update(screenWidth, screenHeight, deltaTime);
 	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
 	UpdateAllBullets(screenWidth, screenHeight, deltaTime);
+
 }
 
 void Game::Render() {
+
+	SDL_Color green;
+	green.r = 0;
+	green.g = 255;
+	green.b = 0;
+	green.a = 0;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	textManager->RenderText("Test Message", green, -100.0f, -25.0f, 50);
 
 	DrawPlayerRemainingLives();
 	player->Render();
 	RenderAsteroids();
 	RenderBullets();
 	GraphFrameRate();
+}
+
+void Game::CreateGameColor() {
+
+}
+
+void Game::RenderGameOverScreen() {
+
+
 }
 
 void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime) {
@@ -158,7 +182,6 @@ bool Game::IsInCollisionRange(float distanceBetweenEntities, float radiusOfEntit
 
 		return false;
 	}
-
 }
 
 void Game::ShowShipCollisionLines() {
@@ -283,6 +306,7 @@ void Game::shootBullet() {
 		if (bullets.size() < 4) {
 
 			bullets.push_back(new Bullet(*player));
+			soundManager->play2D("Fire.wav");
 		}
 	}
 }

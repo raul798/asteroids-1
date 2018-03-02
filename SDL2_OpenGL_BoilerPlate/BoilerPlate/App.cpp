@@ -1,8 +1,6 @@
 #include "App.hpp"
 #include <iostream>
 #include <algorithm>
-
-//#include <irrklang/irrKlang.h>
 #include "App.hpp"
 
 namespace Engine
@@ -54,8 +52,6 @@ namespace Engine
 
 	bool App::Init()
 	{
-
-		font->InitFont();
 		// Init the external dependencies
 		bool success = SDLInit() && GlewInit();
 		if (!success)
@@ -205,19 +201,6 @@ namespace Engine
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		game->Render();
-
-		//TODO:: fix this
-		font = new TextManager(m_width, m_height);
-
-		SDL_Color green;
-		green.r = 0;
-		green.g = 255;
-		green.b = 0;
-		green.a = 0;
-
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		font->RenderText("Test Message", green, -100.0f, -25.0f, 50);
 
 		SDL_GL_SwapWindow(m_mainWindow);
 	}
