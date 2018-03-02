@@ -67,6 +67,7 @@ void Game::RenderGameOverScreen() {
 
 		textManager->RenderText("Game Over", fontColor, xAxisGameOverText, xAxisGameOverText, fontSize);
 		textManager->RenderText("Press Y to Restart", fontColor, xAxisGameOverText - 150.0f, xAxisGameOverText - 100.0f, fontSize);
+		//soundManager->play2D("sound/gameOver.wav");
 	}
 }
 
@@ -500,6 +501,7 @@ void Game::InputController() {
 
 		if (playerRemainingLives == 0) {
 
+			soundManager->stopAllSounds();
 			ResetGame();
 		}
 	}
