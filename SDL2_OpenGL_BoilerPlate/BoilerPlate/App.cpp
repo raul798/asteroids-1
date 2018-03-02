@@ -157,7 +157,6 @@ namespace Engine
 			break;
 
 		default:
-			SDL_Log("%S was pressed.", keyBoardEvent.keysym.scancode);
 			break;
 		}
 	}

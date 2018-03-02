@@ -17,6 +17,7 @@ Game::Game() {
 	livesPerScoreCounter = 1;
 	textManager->InitFont();
 	textManager = new TextManager(gameScreenWidth, gameScreenHeight, fontSize);
+	SetFontColor(255, 255, 255, 255);
 	soundManager = irrklang::createIrrKlangDevice();
 	soundManager->setSoundVolume(1.0f);
 }
@@ -34,7 +35,6 @@ void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 	player->Update(screenWidth, screenHeight, deltaTime);
 	UpdateAllAsteroids(screenWidth, screenHeight, deltaTime);
 	UpdateAllBullets(screenWidth, screenHeight, deltaTime);
-
 }
 
 void Game::Render() {
@@ -44,7 +44,6 @@ void Game::Render() {
 	RenderAsteroids();
 	RenderBullets();
 	GraphFrameRate();
-
 	RenderScore();
 	RenderGameOverScreen();
 }
@@ -117,7 +116,7 @@ void Game::AddAsteroid() {
 	//can only add asteroids in debugging mode
 	if (player->GetDebuggerState() == true) {
 		asteroids.push_back(new Asteroid());
-		numberOfAsteroids = (int)asteroids.size();
+		numberOfAsteroids = static_cast<int>(asteroids.size());
 	}
 	
 }
@@ -134,7 +133,7 @@ void Game::RemoveAsteroid() {
 		else {
 
 			asteroids.pop_back();
-			numberOfAsteroids = (int)asteroids.size();
+			numberOfAsteroids = static_cast<int>(asteroids.size());
 		}
 	}
 }
@@ -381,7 +380,7 @@ void Game::CollisionOfTheBullet(){
 					//remove the asteroid and the bullet on impact
 					asteroids.erase(asteroids.begin() + j);
 					bullets.erase(bullets.begin() + i);
-					numberOfAsteroids = (int)asteroids.size();
+					numberOfAsteroids = static_cast<int>(asteroids.size());
 
 					//add lives depending on score
 					AdditionalLivesPerScore();
@@ -532,14 +531,14 @@ void Game::FillStorageDeltaTime(){
 
 	for (int i = 0; i < storageDeltaTime.size(); i++) {
 
-		storageDeltaTime[i].x = (float)i;
+		storageDeltaTime[i].x = static_cast<float>(i);
 		storageDeltaTime[i].y = DESIRED_FRAME_TIME;
 	}
 }
 
 float Game::CalculateFrameRate(double endTime, double startTime) {
 
-	float deltaTime = DESIRED_FRAME_TIME - ((float)endTime - (float)startTime);
+	float deltaTime = DESIRED_FRAME_TIME - (static_cast<float>(endTime) - static_cast<float>(startTime));
 
 	return deltaTime;
 }
@@ -548,7 +547,7 @@ void Game::UpdateFrameRate(double endTime, double startTime) {
 
 	float deltaTime = CalculateFrameRate(endTime, startTime);
 
-	storageDeltaTime[storageDeltaTimeCounter] = Vector2((float)storageDeltaTimeCounter, deltaTime);
+	storageDeltaTime[storageDeltaTimeCounter] = Vector2(static_cast<float>(storageDeltaTimeCounter), deltaTime);
 
 	storageDeltaTimeCounter++;
 

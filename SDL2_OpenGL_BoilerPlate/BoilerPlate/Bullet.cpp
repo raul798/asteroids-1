@@ -25,12 +25,7 @@ void Bullet::Update(int screenWidth, int screenHeight, float deltaTime) {
 
 	bulletLifeSapwn += deltaTime;
 	
-	//Entity::Update(screenWidth, screenHeight, deltaTime);
-	position->x += entityVelocity->x * deltaTime;
-	position->y += entityVelocity->y * deltaTime;
-
-	//TODO:descommnet the warping after fixing the bullet travel time
-	Warping(screenWidth, screenHeight);
+	Entity::Update(screenWidth, screenHeight, deltaTime);
 
 	BulletMovement();
 }

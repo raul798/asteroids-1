@@ -1,11 +1,5 @@
 #include "Entity.hpp"
 
-//other libraries
-
-
-
-
-
 Entity::Entity() {
 
 	position = new Vector2();
@@ -37,6 +31,8 @@ void Entity::DrawEntity() {
 
 	glColor3f(1.0f, 1.0, 1.0f);
 
+	PushDrawEntityVertex();
+
 	for (int i = 0; i < entityVertexContainer.size(); i++) {
 		glVertex2f(entityVertexContainer[i].x, entityVertexContainer[i].y);
 	}
@@ -56,21 +52,21 @@ void Entity::Warping(int screenWidth, int screenHeight) {
 	//Evaluating x
 	if (position->x < -width) {
 
-		position->x = (float)width;
+		position->x = static_cast<float>(width);
 	}
 	else if (position->x > width) {
 
-		position->x = (float)-width;
+		position->x = static_cast<float>(-width);
 	}
 
 	//Evaluationg y
 	if (position->y < -height) {
 
-		position->y = (float)height;
+		position->y = static_cast<float>(height);
 	}
 	else if (position->y > height) {
 
-		position->y = (float)-height;
+		position->y = static_cast<float>(-height);
 	}
 }
 

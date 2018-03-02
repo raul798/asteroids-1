@@ -22,7 +22,7 @@ public:
 	virtual void Update(int screenWidth, int screenHeight, float deltaTime);
 	virtual void PushDrawEntityVertex();
 	virtual void Render();
-	virtual void Impulse();
+	void Impulse();
 	void DrawThruster();
 	void PushDrawThrusterVertex();
 	void RotateLeft();

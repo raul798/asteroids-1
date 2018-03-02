@@ -4,10 +4,10 @@ int MathUtilities::floatToInt(float number) {
 	int result;
 
 	if (number >= 0) {
-		result = (int)(number + 0.5);
+		result = static_cast<int>(number + 0.5);
 	}
 	else {
-		result = (int)(number - 0.5);
+		result = static_cast<int>(number - 0.5);
 	}
 
 	return result;
@@ -16,13 +16,13 @@ int MathUtilities::floatToInt(float number) {
 int MathUtilities::floatToEvenInt(float number) {
 	int result, firstDecimal, intNumber;
 
-	firstDecimal = (int)(number * 10) % 10;
+	firstDecimal = static_cast<int>(number * 10) % 10;
 
 	if (number >= 0) {
-		intNumber = (int)(number + 0.5);
+		intNumber = static_cast<int>(number + 0.5);
 	}
 	else {
-		intNumber = (int)(number - 0.5);
+		intNumber = static_cast<int>(number - 0.5);
 	}
 	
 	if (firstDecimal >= 5) {
