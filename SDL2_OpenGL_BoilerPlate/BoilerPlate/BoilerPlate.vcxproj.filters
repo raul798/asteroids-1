@@ -42,7 +42,7 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="TextRender.cpp">
+    <ClCompile Include="TextManager.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClInclude Include="IncludeSDL.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="TextRender.hpp">
+    <ClInclude Include="TextManager.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

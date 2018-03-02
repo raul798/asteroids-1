@@ -206,9 +206,18 @@ namespace Engine
 
 		game->Render();
 
-		font = new TextRender(m_width, m_height);
+		//TODO:: fix this
+		font = new TextManager(m_width, m_height);
 
-		font->RenderGameFont();
+		SDL_Color green;
+		green.r = 0;
+		green.g = 255;
+		green.b = 0;
+		green.a = 0;
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		font->RenderText("Test Message", green, -100.0f, -25.0f, 50);
 
 		SDL_GL_SwapWindow(m_mainWindow);
 	}

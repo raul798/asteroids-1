@@ -1,12 +1,12 @@
-#include "TextRender.hpp"
+#include "TextManager.hpp"
 
 
-TextRender::TextRender(int gameScreenWidth, int gameScreenHeight) {
+TextManager::TextManager(int gameScreenWidth, int gameScreenHeight) {
 
 	font = TTF_OpenFont("Font.ttf", 100);
 }
 
-bool TextRender::InitFont() {
+bool TextManager::InitFont() {
 
 	if (TTF_Init() == -1) {
 		SDL_Log("TTF_Init: %s\n", TTF_GetError());
@@ -14,14 +14,14 @@ bool TextRender::InitFont() {
 	}
 }
 
-unsigned int TextRender::power_two_floor(unsigned int val) {
+unsigned int TextManager::power_two_floor(unsigned int val) {
 	unsigned int power = 2, nextVal = power * 2;
 	while ((nextVal *= 2) <= val)
 		power *= 2;
 	return power * 2;
 }
 
-void TextRender::RenderText(std::string message, SDL_Color color, float x, float y, int size)
+void TextManager::RenderText(std::string message, SDL_Color color, float x, float y, int size)
 {
 	glLoadIdentity();
 	glTranslatef(x, y, 0.f);
@@ -73,15 +73,3 @@ void TextRender::RenderText(std::string message, SDL_Color color, float x, float
 	glDeleteTextures(1, &texId);
 }
 
-void TextRender::RenderGameFont() {
-
-	SDL_Color green;
-	green.r = 0;
-	green.g = 255;
-	green.b = 0;
-	green.a = 0;
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	RenderText("Test Message", green, -100.0f, -25.0f, 50);
-}
