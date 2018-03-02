@@ -1,9 +1,9 @@
 #include "TextManager.hpp"
 
 
-TextManager::TextManager(int gameScreenWidth, int gameScreenHeight) {
+TextManager::TextManager(int gameScreenWidth, int gameScreenHeight, int fontSize) {
 
-	font = TTF_OpenFont("Font.ttf", 100);
+	font = TTF_OpenFont("Font.ttf", fontSize);
 }
 
 bool TextManager::InitFont() {

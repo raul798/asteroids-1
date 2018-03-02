@@ -82,7 +82,8 @@ public:
 	void AdditionalLivesPerScore();
 	void RenderGameOverScreen();
 	void RenderScore();
-	void CreateGameColor();
+	void SetFontColor(int r, int g, int b, int a);
+	const float fontSize = 50.0f;
 
 	//Input
 	InputManager inputManager;

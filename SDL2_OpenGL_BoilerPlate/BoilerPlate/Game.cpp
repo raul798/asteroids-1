@@ -16,7 +16,7 @@ Game::Game() {
 	playerScore = 0;
 	livesPerScoreCounter = 1;
 	textManager->InitFont();
-	textManager = new TextManager(gameScreenWidth, gameScreenHeight);
+	textManager = new TextManager(gameScreenWidth, gameScreenHeight, fontSize);
 	soundManager = irrklang::createIrrKlangDevice();
 	soundManager->setSoundVolume(1.0f);
 }
@@ -39,30 +39,47 @@ void Game::Update(int screenWidth, int screenHeight, float deltaTime) {
 
 void Game::Render() {
 
-	SDL_Color green;
-	green.r = 0;
-	green.g = 255;
-	green.b = 0;
-	green.a = 0;
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	textManager->RenderText("Test Message", green, -100.0f, -25.0f, 50);
-
 	DrawPlayerRemainingLives();
 	player->Render();
 	RenderAsteroids();
 	RenderBullets();
 	GraphFrameRate();
+
+	RenderScore();
+	RenderGameOverScreen();
 }
 
-void Game::CreateGameColor() {
+void Game::SetFontColor(int r, int g, int b, int a) {
 
+	fontColor.r = r;
+	fontColor.g = g;
+	fontColor.b = b;
+	fontColor.a = a;
 }
 
 void Game::RenderGameOverScreen() {
 
 
+	if (playerRemainingLives <= 0) {
+
+		//Score Position
+		float xAxisGameOverText = -60.0f;
+		float yAxisGameOverText = (gameScreenHeight / 2) - 30.0f;
+
+		textManager->RenderText("Game Over", fontColor, xAxisGameOverText, xAxisGameOverText, fontSize);
+		textManager->RenderText("Press Y to Restart", fontColor, xAxisGameOverText - 150.0f, xAxisGameOverText - 100.0f, fontSize);
+	}
+}
+
+void Game::RenderScore() {
+
+	//Score Position
+	float xAxisScore = 0.0f;
+	float yAxisScore = (gameScreenHeight / 2) - 70.0f;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	textManager->RenderText(std::to_string(playerScore), fontColor, xAxisScore, yAxisScore, fontSize);
 }
 
 void Game::UpdateAllAsteroids(int screenWidth, int screenHeight, float deltaTime) {
@@ -251,6 +268,20 @@ void Game::CollisionOfTheShip() {
 				playerRemainingLives--;
 				RespawnPlayer();
 
+				if (asteroids[i]->GetAsteroidSize() == 3) {
+
+					soundManager->play2D("sound/bangLarge.wav");
+				}
+				if (asteroids[i]->GetAsteroidSize() == 2) {
+
+					soundManager->play2D("sound/bangMedium.wav");
+				}
+				if (asteroids[i]->GetAsteroidSize() == 1) {
+
+					soundManager->play2D("sound/bangSmall.wav");
+				}
+
+
 			}
 		}
 	}
@@ -261,13 +292,9 @@ void Game::RespawnPlayer() {
 	if (playerRemainingLives > 0) {
 
 		player->RespawnShip();
-		std::cout << playerRemainingLives << std::endl;
-	}
-	else {
 
-		std::cout << "muelto" << std::endl;
+		soundManager->play2D("sound/beat1.wav");
 	}
-	
 }
 
 void Game::UpdateAllBullets(int screenWidth, int screenHeight, float deltaTime) {
@@ -306,7 +333,7 @@ void Game::shootBullet() {
 		if (bullets.size() < 4) {
 
 			bullets.push_back(new Bullet(*player));
-			soundManager->play2D("Fire.wav");
+			soundManager->play2D("sound/Fire.wav");
 		}
 	}
 }
@@ -332,6 +359,8 @@ void Game::CollisionOfTheBullet(){
 						asteroids.push_back(new Asteroid(2, asteroids[j]->GetPosition()));
 
 						playerScore += 20;
+
+						soundManager->play2D("sound/bangLarge.wav");
 					}
 					if(asteroids[j]->GetAsteroidSize() == 2) {
 
@@ -339,10 +368,14 @@ void Game::CollisionOfTheBullet(){
 						asteroids.push_back(new Asteroid(1, asteroids[j]->GetPosition()));
 
 						playerScore += 50;
+
+						soundManager->play2D("sound/bangMedium.wav");
 					}
 					if (asteroids[j]->GetAsteroidSize() == 1) {
 
 						playerScore += 100;
+
+						soundManager->play2D("sound/bangSmall.wav");
 					}
 					
 					//remove the asteroid and the bullet on impact
@@ -419,6 +452,7 @@ void Game::InputController() {
 
 		player->Impulse();
 		player->SetIsThrusterOn(true);
+		soundManager->play2D("sound/thrust.wav");
 	}
 	else {
 
@@ -465,7 +499,10 @@ void Game::InputController() {
 
 	if (inputManager.GetY()) {
 
-		ResetGame();
+		if (playerRemainingLives == 0) {
+
+			ResetGame();
+		}
 	}
 
 	if (inputManager.GetSpace() && inputCounter == 0) {
@@ -606,6 +643,8 @@ void Game::CheckPlayerInvulnerability() {
 			player->SetCanPlayerShoot(true);
 			player->SetIsInvulnerabilityOn(false);
 			invulnerabilityTimeCounter = 0.0f;
+
+			soundManager->play2D("sound/beat2.wav");
 		}
 	}
 }
@@ -662,11 +701,11 @@ void Game::ResetGame() {
 
 void Game::AdditionalLivesPerScore(){
 
-	std::cout << playerRemainingLives << std::endl;
 	if (playerScore / livesPerScoreCounter >= scoreToGetLife) {
-
+		
 		livesPerScoreCounter++;
 		playerRemainingLives++;
+		soundManager->play2D("sound/extraShip.wav");
 	}
 	
 }

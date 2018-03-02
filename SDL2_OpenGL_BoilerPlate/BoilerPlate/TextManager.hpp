@@ -9,7 +9,7 @@ private:
 	TTF_Font *font;
 
 public:
-	TextManager(int gameScreenWidth, int gameScreenHeight);
+	TextManager(int gameScreenWidth, int gameScreenHeight, int fontSize);
 	bool InitFont();
 	unsigned int power_two_floor(unsigned int val);
 	void RenderText(std::string message, SDL_Color color, float x, float y, int size);

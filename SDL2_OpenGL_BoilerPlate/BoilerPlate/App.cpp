@@ -74,47 +74,38 @@ namespace Engine
 		switch (keyBoardEvent.keysym.scancode)
 		{
 		case SDL_SCANCODE_W:
-			SDL_Log("Up");
 			game->inputManager.SetW(true);
 			break;
 
 		case SDL_SCANCODE_A:
-			SDL_Log("Left");
 			game->inputManager.SetA(true);
 			break;
 
 		case SDL_SCANCODE_D:
-			SDL_Log("Right");
 			game->inputManager.SetD(true);
 			break;
 
 		case SDL_SCANCODE_R:
-			SDL_Log("Remove Asteroid");
 			game->inputManager.SetR(true);
 			break;
 
 		case SDL_SCANCODE_T:
-			SDL_Log("Add Asteroid");
 			game->inputManager.SetT(true);
 			break;
 
 		case SDL_SCANCODE_F:
-			SDL_Log("frame Rate");
 			game->inputManager.SetF(true);
 			break;
 
 		case SDL_SCANCODE_G:
-			SDL_Log("Debugger Mode");
 			game->inputManager.SetG(true);
 			break;
 
 		case SDL_SCANCODE_Y:
-			SDL_Log("Reset Player");
 			game->inputManager.SetY(true);
 			break;
 
 		case SDL_SCANCODE_SPACE:
-			SDL_Log("Shoot");
 			game->inputManager.SetSpace(true);
 			break;
 
@@ -159,6 +150,10 @@ namespace Engine
 
 		case SDL_SCANCODE_SPACE:
 			game->inputManager.SetSpace(false);
+			break;
+
+		case SDL_SCANCODE_ESCAPE:
+			OnExit();
 			break;
 
 		default:
